@@ -27,10 +27,10 @@ public class InsertionSort {
 
             arr[j+1] = key;
 
-            if(anyChange){
+            //if(anyChange){
                 intermediates.add(new int[arr.length]);
                 System.arraycopy(arr, 0, intermediates.get(intermediates.size() - 1), 0, arr.length);
-            }
+            //}
         }
         if(intermediates.isEmpty())
             intermediates.add(arr);
