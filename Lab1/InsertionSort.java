@@ -1,6 +1,8 @@
+package org.example;
+
 import java.util.ArrayList;
 public class InsertionSort {
-    public static ArrayList<int[]> sort(int[] arr){
+    public static ArrayList<int[]> sort(int[] arr , int getInter){
         ArrayList<int[]> intermediates = new ArrayList<>();
         if(arr.length == 0){
             intermediates.add(new int[]{}) ;
@@ -26,11 +28,13 @@ public class InsertionSort {
                 anyChange = true;
 
             arr[j+1] = key;
+            if(getInter == 1){
+//                if(anyChange){
+                     intermediates.add(new int[arr.length]);
+                     System.arraycopy(arr, 0, intermediates.get(intermediates.size() - 1), 0, arr.length);
+//                }
+            }
 
-            //if(anyChange){
-                intermediates.add(new int[arr.length]);
-                System.arraycopy(arr, 0, intermediates.get(intermediates.size() - 1), 0, arr.length);
-            //}
         }
         if(intermediates.isEmpty())
             intermediates.add(arr);

@@ -1,3 +1,5 @@
+package org.example;
+
 import java.io.File;
 import java.util.*;
 public class Driver {
@@ -63,14 +65,14 @@ public class Driver {
                 case 1 -> {
                     System.out.println("Insertion Sort");
                     long start = System.nanoTime();
-                    steps = InsertionSort.sort(arr);
+                    steps = InsertionSort.sort(arr,1);
                     long end = System.nanoTime();
                     System.out.println("Time taken: " + (end - start) + " ns");
                 }
                 case 2 -> {
                     System.out.println("Merge Sort");
                     long start = System.nanoTime();
-                    steps = MergeSort.mergeSort(arr);
+                    steps = MergeSort.mergeSort(arr,1);
                     long end = System.nanoTime();
                     System.out.println("Time taken: " + (end - start) + " ns");
                 }
@@ -78,7 +80,7 @@ public class Driver {
                     System.out.println("Radix Sort");
                     long start = System.nanoTime();
                     try{
-                        steps = RadixSort.sort(arr);
+                        steps = RadixSort.sort(arr,1);
                     } catch (Exception e) {
                         System.out.println("Negative numbers are not allowed in the input array.");
                     }

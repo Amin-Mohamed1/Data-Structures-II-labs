@@ -1,6 +1,7 @@
+package org.example;
 import java.util.*;
 public class RadixSort {
-    public static ArrayList<int[]> sort(int[] arr) throws IllegalArgumentException {
+    public static ArrayList<int[]> sort(int[] arr ,int getInter) throws IllegalArgumentException {
         ArrayList<int[]> steps = new ArrayList<>();
 
         if (arr.length == 0) {
@@ -36,11 +37,16 @@ public class RadixSort {
             }
 
             /* adding the array after the i-th iteration for 1 <= i <= maxDigits */
-            steps.add(new int[arr.length]);
-            for (int j = 0; j < arr.length; j++) {
-                steps.get(steps.size() - 1)[j] = arr[j];
+            if(getInter == 1){
+                steps.add(new int[arr.length]);
+                for (int j = 0; j < arr.length; j++) {
+                    steps.get(steps.size() - 1)[j] = arr[j];
+                }
             }
+//
         }
+        if(getInter == 0)
+            steps.add(arr) ;
         return steps;
     }
 
