@@ -16,25 +16,25 @@ public class radixSortTest {
 //    public Timeout globalTimeout = Timeout.millis(1000); // 1 second
     @Test(timeout = 1000)
     public void simple_array_with_5_elements(){
-        ArrayList<int[]> res = RadixSort.sort(new int[]{8,6,10,1,4}) ;
+        ArrayList<int[]> res = RadixSort.sort(new int[]{8,6,10,1,4},0) ;
         assertArrayEquals(new int[]{1,4,6,8,10} ,res.getLast());
     }
     @Test(timeout = 1000)
     public void corner_case_of_one_element_array(){
 
-        ArrayList<int[]> res = RadixSort.sort(new int[]{8}) ;
+        ArrayList<int[]> res = RadixSort.sort(new int[]{8},0) ;
 
         assertArrayEquals(new int[]{8} ,res.getFirst());
     }
     @Test(timeout = 1000)
     public void corner_case_of_empty_array(){
-        ArrayList<int[]> res = RadixSort.sort(new int[]{}) ;
+        ArrayList<int[]> res = RadixSort.sort(new int[]{},0) ;
         assertArrayEquals(new int[]{} ,res.getFirst());
     }
 
     @Test(timeout = 1000)
     public void reversed_sorted_array_manually(){
-        ArrayList<int[]> res = RadixSort.sort(new int[]{10,9,8,7,6,5,5,4,4,3,3,2,2,2,1,0,0}) ;
+        ArrayList<int[]> res = RadixSort.sort(new int[]{10,9,8,7,6,5,5,4,4,3,3,2,2,2,1,0,0},0) ;
         assertArrayEquals(new int[]{0,0,1,2,2,2,3,3,4,4,5,5,6,7,8,9,10} ,res.getLast());
     }
 
@@ -51,12 +51,12 @@ public class radixSortTest {
             random[i] = random[random.length-1-i] ;
             random[random.length-1-i] = temp ;
         }
-        ArrayList<int[]> res = RadixSort.sort(random) ;
+        ArrayList<int[]> res = RadixSort.sort(random,0) ;
         assertArrayEquals(resultToRandom , res.getLast());
     }
     @Test(timeout = 1000)
     public void sorted_array_manually(){
-        ArrayList<int[]> res = RadixSort.sort(new int[]{0,0,1,2,2,2,3,3,4,4,5,5,6,7,8,9,10}) ;
+        ArrayList<int[]> res = RadixSort.sort(new int[]{0,0,1,2,2,2,3,3,4,4,5,5,6,7,8,9,10},0) ;
         assertArrayEquals(new int[]{0,0,1,2,2,2,3,3,4,4,5,5,6,7,8,9,10} ,res.getLast());
     }
 
@@ -68,7 +68,7 @@ public class radixSortTest {
         resultToRandom = tempArr[1] ;
         Arrays.sort(resultToRandom);
         Arrays.sort(random );
-        ArrayList<int[]> res = RadixSort.sort(random) ;
+        ArrayList<int[]> res = RadixSort.sort(random,0) ;
         assertArrayEquals(resultToRandom , res.getLast());
     }
 
@@ -79,7 +79,7 @@ public class radixSortTest {
         random = tempArr[0] ;
         resultToRandom = tempArr[1] ;
         Arrays.sort(resultToRandom);
-        ArrayList<int[]> res = RadixSort.sort(random) ;
+        ArrayList<int[]> res = RadixSort.sort(random,0) ;
         assertArrayEquals(resultToRandom , res.getLast());
     }
     @Test(timeout = 1000)
@@ -92,7 +92,7 @@ public class radixSortTest {
             random = tempArr[0] ;
             resultToRandom = tempArr[1] ;
             Arrays.sort(resultToRandom);
-            ArrayList<int[]> res = RadixSort.sort(random) ;
+            ArrayList<int[]> res = RadixSort.sort(random,0) ;
             assertArrayEquals(resultToRandom , res.getLast());
         }
         long averageEnd = System.nanoTime();
@@ -100,7 +100,7 @@ public class radixSortTest {
     }
     @Test(timeout = 1000)
     public void intermediate_corrected1(){
-        ArrayList<int[]> res = RadixSort.sort(new int[]{2 , 14 , 310 }) ;
+        ArrayList<int[]> res = RadixSort.sort(new int[]{2 , 14 , 310 },1) ;
 
         assertArrayEquals(new int[]{310 , 2 , 14} ,res.getFirst());
         assertArrayEquals(new int[]{2, 310 , 14} ,res.get(1));
@@ -108,35 +108,35 @@ public class radixSortTest {
     }
     @Test(timeout = 1000)
     public void intermediate_corrected2(){
-        ArrayList<int[]> res = RadixSort.sort(new int[]{50,4,3,2}) ;
+        ArrayList<int[]> res = RadixSort.sort(new int[]{50,4,3,2},1) ;
         assertArrayEquals(new int[]{50,2,3,4} ,res.getFirst());
         assertArrayEquals(new int[]{2,3,4,50} ,res.getLast());
     }
     @Test(timeout = 1000)
     public void intermediate_corrected3(){
-        ArrayList<int[]> res = RadixSort.sort(new int[]{50,4,3,2}) ;
+        ArrayList<int[]> res = RadixSort.sort(new int[]{50,4,3,2},1) ;
         assertArrayEquals(new int[]{50,2,3,4} ,res.getFirst());
         assertArrayEquals(new int[]{2,3,4,50} ,res.getLast());
     }
     @Test(timeout = 1000)
     public void intermediate_corrected4(){
-        ArrayList<int[]> res = RadixSort.sort(new int[]{4,-5,-15,-1,7,9}) ;
+        ArrayList<int[]> res = RadixSort.sort(new int[]{4,-5,-15,-1,7,9},1) ;
         assertArrayEquals(new int[]{-5,-15,-1,4,7,9} ,res.getFirst());
         assertArrayEquals(new int[]{-15,-5,-1,4,7,9} ,res.getLast());
     }
     @Test(timeout = 1000)
     public void case_worst(){
-        ArrayList<int[]> res = RadixSort.sort(new int[]{666666,222222,777777,444444,555555}) ;
+        ArrayList<int[]> res = RadixSort.sort(new int[]{666666,222222,777777,444444,555555},1) ;
         assertArrayEquals(new int[]{222222,444444,555555,666666,777777} ,res.getLast());
     }
     @Test(timeout = 1000)
     public void larger_digits_than_size(){
-        ArrayList<int[]> res = RadixSort.sort(new int[]{1 , 2 , 5 , 9  , 310000000 }) ;
+        ArrayList<int[]> res = RadixSort.sort(new int[]{1 , 2 , 5 , 9  , 310000000 },1) ;
         assertArrayEquals(new int[]{1 , 2 , 5 , 9  , 310000000} ,res.getLast());
     }
     @Test(timeout = 1000)
     public void negative_elements(){
-        ArrayList<int[]> res = RadixSort.sort(new int[]{-1 , 2 , -5 , 9  , 310000000 }) ;
+        ArrayList<int[]> res = RadixSort.sort(new int[]{-1 , 2 , -5 , 9  , 310000000 },1) ;
         assertArrayEquals(new int[]{-5 , -1 , 2 , 9  , 310000000} ,res.getLast());
     }
     @Test(timeout = 1000)
@@ -149,16 +149,16 @@ public class radixSortTest {
             compared[i] = i % 1009 ;
         }
         Arrays.sort(compared);
-        ArrayList<int[]> res = RadixSort.sort(input) ;
+        ArrayList<int[]> res = RadixSort.sort(input,0) ;
         assertArrayEquals(compared , res.getLast());
     }
 
     @Test(timeout = 1000000)
     public void fixed_large_array_to_compare_between_times(){
-        int fixedSize = 900 ;
-        int different_sizes = 100 ;
+        int fixedSize = 100 ;
+        int different_sizes = 10000 ;
         long overall_start = System.nanoTime();
-        for(int j = 1 ; j <= different_sizes ; j++  ){
+        for(int j = 1 ; j <= different_sizes ; j *=2 ){
             long averageStart = System.nanoTime();
             int[] input = new int[fixedSize * j] ;
             int[] compared = new int[fixedSize * j] ;
@@ -168,7 +168,7 @@ public class radixSortTest {
                     input[i] = i % (1009 + k );
                     compared[i] = i % (1009 + k ) ;
                 }
-                ArrayList<int[]> res = RadixSort.sort(input) ;
+                ArrayList<int[]> res = RadixSort.sort(input,0) ;
                 long end = System.nanoTime();
                 Arrays.sort(compared);
                 //System.out.println("time taken with size = " +(fixedSize*j) +" at trial >> " + k +"= "+(end-start)/1000000 + "ms");
