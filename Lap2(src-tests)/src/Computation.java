@@ -17,12 +17,12 @@ public class Computation {
         }
         return binary ;
     }
-    public static long binaryToDecimal(int[] num){
-        long decimal = 0 ;
+    public static int binaryToDecimal(int[] num){
+        int decimal = 0 ;
         for(int i = num.length - 1  ,  j = 0; i >=0 ; --i , j++ ){
             if(num[i] == 0)
                 continue;
-            decimal += (long) (Math.pow(2,j) * num[i]);
+            decimal += (int) (Math.pow(2,j) * num[i]);
         }
         return decimal;
     }
@@ -58,5 +58,6 @@ public class Computation {
         }
         return matrix ;
     }
+
 
 }
