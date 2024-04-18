@@ -1,14 +1,16 @@
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Driver {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the type of the backend perfect hashing (e.g., quadratic/linear):");
         String backendType = scanner.nextLine();
-        
+
         EnglishDictionary dictionary = new EnglishDictionary(backendType);
-        
+
         while (true) {
             System.out.println("Choose an operation:");
             System.out.println("1. Insert a string");
@@ -17,10 +19,10 @@ public class Driver {
             System.out.println("4. Batch insert strings from a file");
             System.out.println("5. Batch delete strings from a file");
             System.out.println("6. Exit");
-            
+
             int choice = scanner.nextInt();
             scanner.nextLine(); // Consume newline
-            
+
             switch (choice) {
                 case 1:
                     System.out.println("Enter the string to insert:");
@@ -52,24 +54,22 @@ public class Driver {
                 case 4:
                     System.out.println("Enter the path of the file containing strings to insert:");
                     String insertFilePath = scanner.nextLine();
-                    try {
-                        int[] result = dictionary.batchInsertFromFile(insertFilePath);
-                        System.out.println("Number of newly added strings: " + result[0]);
-                        System.out.println("Number of already existing strings: " + result[1]);
-                    } catch (IOException e) {
-                        System.out.println("Error reading from file: " + e.getMessage());
-                    }
+                {
+                    List<String> insertStrings = CSVParser.parseCSVFromFile(insertFilePath);
+                    System.out.println(Arrays.toString(insertStrings.toArray()));
+                    int[] result = dictionary.batchInsertFromArray(insertStrings.toArray(new String[0]));
+                    System.out.println("Number of newly added strings: " + result[0]);
+                    System.out.println("Number of already existing strings: " + result[1]);
+                }
                     break;
                 case 5:
                     System.out.println("Enter the path of the file containing strings to delete:");
                     String deleteFilePath = scanner.nextLine();
-                    try {
-                        int[] result = dictionary.batchDeleteFromFile(deleteFilePath);
-                        System.out.println("Number of deleted strings: " + result[0]);
-                        System.out.println("Number of non-existing strings: " + result[1]);
-                    } catch (IOException e) {
-                        System.out.println("Error reading from file: " + e.getMessage());
-                    }
+                    List<String> deleteStrings = CSVParser.parseCSVFromFile(deleteFilePath);
+                    System.out.println(Arrays.toString(deleteStrings.toArray()));
+                    int[] result = dictionary.batchDeleteFromArray(deleteStrings.toArray(new String[0]));
+                    System.out.println("Number of deleted strings: " + result[0]);
+                    System.out.println("Number of non-existing strings: " + result[1]);
                     break;
                 case 6:
                     System.out.println("Exiting...");
