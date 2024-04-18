@@ -1,14 +1,16 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PerfectHashingNSquareMethod<T> {
     private int n ; // #number of elements to be inserted
     private final int u = 63 ; // log2^63 ///  2^63 of integers
-    private int numberOfRehashing ;  // how many times we rehash to get final hashing table
-    private int loadFactor ;  // = m / n^2
-    private int m  ; // number of elements in hashing array
+    private int numberOfRehashing = 0 ;  // how many times we rehash to get final hashing table
+    private final double loadFactor = 0.7 ;  // = m / n^2
+    private int m = 0 ; // number of elements in hashing array
     private ArrayList<T>[] hashingTable ;
     private int[][] universalHashingMatrix;
-    private ArrayList<T> elements;
+    private Map<T,T> elements = new HashMap<>() ;;
     public PerfectHashingNSquareMethod(){
         n = 64 ; // # default number to be inserted
         initialize();
@@ -19,15 +21,13 @@ public class PerfectHashingNSquareMethod<T> {
 
     }
     private void initialize(){
-        m = 0 ;
-        numberOfRehashing = 0 ;
-        loadFactor = 0 ;
+
         // array of hashing >> size = 64*64 = 4096
         hashingTable = new ArrayList[n * n] ;
         // universal matrix used in hashing with size log n * u
         universalHashingMatrix = new int[(int)Math.floor( Math.log10(n*n) / Math.log10(2))][u] ;
         randomizeMatrix();
-        elements = new ArrayList<>() ;
+
     }
 
     public ArrayList<T>[] getHashingTable() {
@@ -46,7 +46,7 @@ public class PerfectHashingNSquareMethod<T> {
         return numberOfRehashing;
     }
 
-    public int getLoadFactor() {
+    public double getLoadFactor() {
         return loadFactor;
     }
 
@@ -79,20 +79,52 @@ public class PerfectHashingNSquareMethod<T> {
        long numberInLong = hashing(key);
        int[] numInBinary = Computation.decimalToBinary(numberInLong , u);
        int[] numInBinaryNew = Computation.matrixMultiplication(universalHashingMatrix , numInBinary) ;
-
        int index = Computation.binaryToDecimal(numInBinaryNew) ;
         if(hashingTable[index] == null){
            hashingTable[index] = new ArrayList<>() ;
            hashingTable[index].add(key);
-           elements.add(key);
+           elements.put(key,key);
            m++ ;
+            if((double)(m*1.0)/(n*n) >= 0.7){
+                rehashDueToLoadFactor();
+            }
            return true ;
        }
         if(hashing(hashingTable[index].get(0)) == numberInLong)
             return false ;
-        elements.add(key);
+        elements.put(key,key);
+        m++;
         rehashing();
+        if((double)(m*1.0)/(n*n) >= 0.7){
+           rehashDueToLoadFactor();
+        }
        return true ;
+    }
+    private void rehashDueToLoadFactor(){
+        n *=2 ;
+        initialize();
+        rehashing();
+    }
+    public boolean search(T key){
+        long numberInLong = hashing(key);
+        int[] numInBinary = Computation.decimalToBinary(numberInLong , u);
+        int[] numInBinaryNew = Computation.matrixMultiplication(universalHashingMatrix , numInBinary) ;
+        int index = Computation.binaryToDecimal(numInBinaryNew) ;
+        if(hashingTable[index] == null ||hashing(hashingTable[index].get(0)) != numberInLong )
+            return false;
+        return true;
+    }
+    public Boolean delete(T key){
+        long numberInLong = hashing(key);
+        int[] numInBinary = Computation.decimalToBinary(numberInLong , u);
+        int[] numInBinaryNew = Computation.matrixMultiplication(universalHashingMatrix , numInBinary) ;
+        int index = Computation.binaryToDecimal(numInBinaryNew) ;
+        if(hashingTable[index] != null && hashing(hashingTable[index].get(0)) == numberInLong){
+            hashingTable[index] = null ;
+            elements.remove(key) ;
+            return true;
+        }
+        return false ;
     }
     private void rehashing(){
         boolean collision ;
@@ -101,7 +133,7 @@ public class PerfectHashingNSquareMethod<T> {
             numberOfRehashing++;
             hashingTable = new ArrayList[n * n] ;
             randomizeMatrix();
-            for(T e : elements){
+            for(T e : elements.keySet()){
                 long numberInLong = hashing(e);
                 int[] numInBinary = Computation.decimalToBinary(numberInLong , u);
                 int[] numInBinaryNew = Computation.matrixMultiplication(universalHashingMatrix , numInBinary) ;
