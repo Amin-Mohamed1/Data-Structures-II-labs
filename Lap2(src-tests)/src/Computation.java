@@ -1,6 +1,7 @@
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Random;
 
 public class Computation {
     public static int[] decimalToBinary(long num , int size){
@@ -46,6 +47,16 @@ public class Computation {
             res[i] = sum % 2;
         }
         return res;
+    }
+    public static int[][] getRandomMatrix(int row , int col){
+        int[][] matrix = new int[row][col] ;
+        Random random = new Random();
+        for(int i = 0 ; i < row ; ++i){
+            for(int j = 0 ; j < col ; ++j){
+                matrix[i][j] = random.nextInt(2);
+            }
+        }
+        return matrix ;
     }
 
 }
