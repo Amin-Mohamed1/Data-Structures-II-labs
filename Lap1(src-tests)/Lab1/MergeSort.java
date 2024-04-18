@@ -1,4 +1,3 @@
-package org.example;
 import java.util.ArrayList;
 public class MergeSort {
     public static  ArrayList<int[]> mergeSort(int[] arr , int getInter) {
@@ -51,11 +50,11 @@ public class MergeSort {
         }
         if(getInter == 1){
 
-        intermediates.add(new int[arr.length]);
-        int last = intermediates.size();
-        for (int m = 0; m < arr.length; m++) {
-            intermediates.get(last - 1)[m] = arr[m];
-        }
+            intermediates.add(new int[arr.length]);
+            int last = intermediates.size();
+            for (int m = 0; m < arr.length; m++) {
+                intermediates.get(last - 1)[m] = arr[m];
+            }
         }
 
     }

@@ -1,5 +1,3 @@
-package org.example;
-
 import java.util.ArrayList;
 public class InsertionSort {
     public static ArrayList<int[]> sort(int[] arr , int getInter){
@@ -30,8 +28,8 @@ public class InsertionSort {
             arr[j+1] = key;
             if(getInter == 1){
 //                if(anyChange){
-                     intermediates.add(new int[arr.length]);
-                     System.arraycopy(arr, 0, intermediates.get(intermediates.size() - 1), 0, arr.length);
+                intermediates.add(new int[arr.length]);
+                System.arraycopy(arr, 0, intermediates.get(intermediates.size() - 1), 0, arr.length);
 //                }
             }
 

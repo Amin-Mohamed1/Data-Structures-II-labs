@@ -1,16 +1,14 @@
-package org.example;
-
 import java.io.File;
 import java.util.*;
 public class Driver {
     public static int[] read(String path) {
         File file = new File(path);
-        ArrayList<Integer> arr = null;
+        ArrayList<Integer> arr;
         try {
             Scanner scanner = new Scanner(file);
             arr = new ArrayList<>();
             String input = scanner.nextLine();
-            String[] numbers = input.split(", ");
+            String[] numbers = input.split(",");
             for (String number : numbers) {
                 arr.add(Integer.parseInt(number));
             }
@@ -19,15 +17,9 @@ public class Driver {
                 res[i] = arr.get(i);
             }
             return res;
-        } catch (Exception e) {
-            System.out.println("File not found");
+        } catch (Exception e){
+            return null;
         }
-        assert arr != null;
-        int[] res = new int[arr.size()];
-        for (int i = 0; i < arr.size(); i++) {
-            res[i] = arr.get(i);
-        }
-        return res;
     }
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -45,6 +37,12 @@ public class Driver {
         System.out.println("Welcome to Lab1 Sorting Algorithms program. DS2");
         System.out.print("Please enter the path of the file you want to sort: ");
         String path = scanner.nextLine();
+        int[] arr = read(path);
+        while(arr == null){
+            System.out.print("Invalid path. Please enter a valid path: ");
+            path = scanner.nextLine();
+            arr = read(path);
+        }
         int choice;
         while(true){
             System.out.println("Please select the sorting algorithm you want to use:");
@@ -59,20 +57,19 @@ public class Driver {
             }
             System.out.print("Enter 1 if you want to see the intermediate steps of the sorting algorithm. Enter 0 if you don't want to see the intermediate steps: ");
             int intermediate = scanner.nextInt();
-            int[] arr = read(path);
             ArrayList<int[]> steps = null;
             switch (choice) {
                 case 1 -> {
                     System.out.println("Insertion Sort");
                     long start = System.nanoTime();
-                    steps = InsertionSort.sort(arr,1);
+                    steps = InsertionSort.sort(arr,intermediate);
                     long end = System.nanoTime();
                     System.out.println("Time taken: " + (end - start) + " ns");
                 }
                 case 2 -> {
                     System.out.println("Merge Sort");
                     long start = System.nanoTime();
-                    steps = MergeSort.mergeSort(arr,1);
+                    steps = MergeSort.mergeSort(arr,intermediate);
                     long end = System.nanoTime();
                     System.out.println("Time taken: " + (end - start) + " ns");
                 }
@@ -80,7 +77,7 @@ public class Driver {
                     System.out.println("Radix Sort");
                     long start = System.nanoTime();
                     try{
-                        steps = RadixSort.sort(arr,1);
+                        steps = RadixSort.sort(arr,intermediate);
                     } catch (Exception e) {
                         System.out.println("Negative numbers are not allowed in the input array.");
                     }
