@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PerfectHashingNSquareMethod<T> {
+public class PerfectHashingNSquareMethod<T> implements PerfectHashing<T>{
     private int n ; // #number of elements to be inserted
     private final int u = 63 ; // log2^63 ///  2^63 of integers
     private int numberOfRehashing = 0 ;  // how many times we rehash to get final hashing table
@@ -114,7 +114,7 @@ public class PerfectHashingNSquareMethod<T> {
             return false;
         return true;
     }
-    public Boolean delete(T key){
+    public boolean delete(T key){
         long numberInLong = hashing(key);
         int[] numInBinary = Computation.decimalToBinary(numberInLong , u);
         int[] numInBinaryNew = Computation.matrixMultiplication(universalHashingMatrix , numInBinary) ;

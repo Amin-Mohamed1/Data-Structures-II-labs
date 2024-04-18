@@ -1,5 +1,5 @@
 import java.util.*;
-public class PerfectHashingNMethod<T> {
+public class PerfectHashingNMethod <T> implements PerfectHashing<T>{
     private int n ; // #number of elements to be inserted
     private final int u = 63 ; // log2^63 ///  2^63 of integers
     private int numberOfRehashing = 0 ;  // how many times we rehash to get final hashing table
@@ -25,5 +25,20 @@ public class PerfectHashingNMethod<T> {
         int row = universalHashingMatrix.length;
         int col = universalHashingMatrix[0].length;
         universalHashingMatrix = Computation.getRandomMatrix(row,col);
+    }
+    @Override
+    public boolean insert(T key) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'insert'");
+    }
+    @Override
+    public boolean search(T key) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'search'");
+    }
+    @Override
+    public boolean delete(T key) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
 }

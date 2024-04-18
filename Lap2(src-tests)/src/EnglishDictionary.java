@@ -1,24 +1,48 @@
+import java.util.ArrayList;
+
 public class EnglishDictionary {
-    public EnglishDictionary(String backendType) {
+    private PerfectHashing<String> dic;
+
+    public EnglishDictionary(String s) {
+        if ("linear".equals(s))
+            dic = new PerfectHashingNMethod<String>();
+        else
+            dic = new PerfectHashingNSquareMethod<String>();
     }
 
-    public boolean insert(String insertString) {
-        return false;
+    public boolean insert(String s) {
+        return dic.insert(s);
     }
 
-    public boolean delete(String deleteString) {
-        return false;
+    public boolean search(String s) {
+        return dic.search(s);
+
     }
 
-    public boolean search(String searchString) {
-        return false;
+    public boolean delete(String s) {
+        return dic.delete(s);
     }
 
-    public int[] batchInsertFromArray(String[] array) {
-        return new int[0];
+    public int[] batchInsertFromFile(ArrayList<String> list) {
+        int[] result = new int[2];
+        for (String s : list) {
+            if (dic.insert(s))
+                result[0]++;
+            else
+                result[1]++;
+        }
+        return result;
     }
 
-    public int[] batchDeleteFromArray(String[] array) {
-        return new int[0];
+    public int[] batchDeleteFromFile(ArrayList<String> list) {
+        int[] result = new int[2];
+        for (String s : list) {
+            if (dic.delete(s))
+                result[0]++;
+            else
+                result[1]++;
+        }
+        return result;
     }
+
 }
