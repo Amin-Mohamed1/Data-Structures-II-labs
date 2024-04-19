@@ -28,8 +28,10 @@ public class Driver {
                 case 1:
                     System.out.println("Enter the string to insert:");
                     String insertString = scanner.nextLine();
-                    if (dictionary.insert(insertString)) {
+                    int[] result = dictionary.insert(insertString);
+                    if (result[0]==1) {
                         System.out.println("String inserted successfully.");
+                        System.out.println("Number of rehashings: " + result[1]);
                     } else {
                         System.out.println("String already exists in the dictionary.");
                     }
@@ -37,8 +39,10 @@ public class Driver {
                 case 2:
                     System.out.println("Enter the string to delete:");
                     String deleteString = scanner.nextLine();
-                    if (dictionary.delete(deleteString)) {
+                    result = dictionary.delete(deleteString);
+                    if (result[0]==1) {
                         System.out.println("String deleted successfully.");
+                        System.out.println("Number of rehashings: " + result[1]);
                     } else {
                         System.out.println("String doesn't exist in the dictionary.");
                     }
@@ -58,18 +62,20 @@ public class Driver {
                 {
                     ArrayList<String> insertStrings = CSVParser.parseCSVFromFile(insertFilePath);
                     System.out.println(insertStrings);
-                    int[] result = dictionary.batchInsertFromFile(insertStrings);
+                    result = dictionary.batchInsertFromFile(insertStrings);
                     System.out.println("Number of newly added strings: " + result[0]);
                     System.out.println("Number of already existing strings: " + result[1]);
+                    System.out.println("Number of rehashings: " + result[2]);
                 }
                     break;
                 case 5:
                     System.out.println("Enter the path of the file containing strings to delete:");
                     String deleteFilePath = scanner.nextLine();
                     ArrayList<String> deleteStrings = CSVParser.parseCSVFromFile(deleteFilePath);
-                    int[] result = dictionary.batchInsertFromFile(deleteStrings);
+                    result = dictionary.batchInsertFromFile(deleteStrings);
                     System.out.println("Number of deleted strings: " + result[0]);
                     System.out.println("Number of non-existing strings: " + result[1]);
+                    System.out.println("Number of rehashings: " + result[2]);
                     break;
                 case 6:
                     System.out.println("Exiting...");
