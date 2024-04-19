@@ -159,7 +159,7 @@ public class PerfectHashingNSquareMethod<T> implements PerfectHashing<T>{
                 continue;
             }
             for(T x : slot)
-                System.out.println( "  >> element = " +x );
+                System.out.println( "  → element = " +x );
 
         }
     }

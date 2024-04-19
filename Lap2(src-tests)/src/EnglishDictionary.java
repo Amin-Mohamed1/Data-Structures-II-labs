@@ -42,7 +42,7 @@ public class EnglishDictionary {
             else
                 result[1]++;
         }
-        result[3]=dic.getNumberOfRehashing();
+        result[2]=dic.getNumberOfRehashing();
         return result;
     }
 
@@ -54,7 +54,7 @@ public class EnglishDictionary {
             else
                 result[1]++;
         }
-        result[3]=dic.getNumberOfRehashing();
+        result[2]=dic.getNumberOfRehashing();
         return result;
     }
 
