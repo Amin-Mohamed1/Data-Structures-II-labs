@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -55,9 +56,9 @@ public class Driver {
                     System.out.println("Enter the path of the file containing strings to insert:");
                     String insertFilePath = scanner.nextLine();
                 {
-                    List<String> insertStrings = CSVParser.parseCSVFromFile(insertFilePath);
-                    System.out.println(Arrays.toString(insertStrings.toArray()));
-                    int[] result = dictionary.batchInsertFromArray(insertStrings.toArray(new String[0]));
+                    ArrayList<String> insertStrings = CSVParser.parseCSVFromFile(insertFilePath);
+                    System.out.println(insertStrings);
+                    int[] result = dictionary.batchInsertFromFile(insertStrings);
                     System.out.println("Number of newly added strings: " + result[0]);
                     System.out.println("Number of already existing strings: " + result[1]);
                 }
@@ -65,9 +66,8 @@ public class Driver {
                 case 5:
                     System.out.println("Enter the path of the file containing strings to delete:");
                     String deleteFilePath = scanner.nextLine();
-                    List<String> deleteStrings = CSVParser.parseCSVFromFile(deleteFilePath);
-                    System.out.println(Arrays.toString(deleteStrings.toArray()));
-                    int[] result = dictionary.batchDeleteFromArray(deleteStrings.toArray(new String[0]));
+                    ArrayList<String> deleteStrings = CSVParser.parseCSVFromFile(deleteFilePath);
+                    int[] result = dictionary.batchInsertFromFile(deleteStrings);
                     System.out.println("Number of deleted strings: " + result[0]);
                     System.out.println("Number of non-existing strings: " + result[1]);
                     break;
