@@ -12,11 +12,8 @@ public class EnglishDictionary {
 
     public int[] insert(String s) {
         int[] result = new int[2];
-        if(dic.insert(s))
-            result[0]=1;
-        else
-            result[0]=0;
-        result[1]=dic.getNumberOfRehashing();
+            result[0]=dic.insert(s);
+            result[1]=dic.getNumberOfRehashing();
         return result;
     }
 
@@ -37,7 +34,7 @@ public class EnglishDictionary {
     public int[] batchInsertFromFile(ArrayList<String> list) {
         int[] result = new int[3];
         for (String s : list) {
-            if (dic.insert(s))
+            if (dic.insert(s)==0)
                 result[0]++;
             else
                 result[1]++;
