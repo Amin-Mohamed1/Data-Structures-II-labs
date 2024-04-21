@@ -10,7 +10,7 @@ public class PerfectHashingNSquareMethod<T> implements PerfectHashing<T>{
     private int m = 0 ; // number of elements in hashing array
     private ArrayList<T>[] hashingTable ;
     private int[][] universalHashingMatrix;
-    private Map<T,T> elements = new HashMap<>() ;;
+    private Map<T,Integer> elements = new HashMap<>() ;;
     public PerfectHashingNSquareMethod(){
         n = 64 ; // # default number to be inserted
         initialize();
@@ -62,11 +62,11 @@ public class PerfectHashingNSquareMethod<T> implements PerfectHashing<T>{
         if( key instanceof String)
             temp = Computation.convertStringToLong((String) key);
         else if(key instanceof Integer){
-             temp = (int)key;
+            temp = (int)key;
         }
         else {
             int charToInt = (char)key ;
-             temp = charToInt;
+            temp = charToInt;
         }
         return temp ;
     }
@@ -75,30 +75,34 @@ public class PerfectHashingNSquareMethod<T> implements PerfectHashing<T>{
         int col = universalHashingMatrix[0].length;
         universalHashingMatrix = Computation.getRandomMatrix(row,col);
     }
-    public boolean insert(T key){
-       long numberInLong = hashing(key);
-       int[] numInBinary = Computation.decimalToBinary(numberInLong , u);
-       int[] numInBinaryNew = Computation.matrixMultiplication(universalHashingMatrix , numInBinary) ;
-       int index = Computation.binaryToDecimal(numInBinaryNew) ;
+    public int insert(T key){
+        long numberInLong = hashing(key);
+        int[] numInBinary = Computation.decimalToBinary(numberInLong , u);
+        int[] numInBinaryNew = Computation.matrixMultiplication(universalHashingMatrix , numInBinary) ;
+        int index = Computation.binaryToDecimal(numInBinaryNew) ;
         if(hashingTable[index] == null){
-           hashingTable[index] = new ArrayList<>() ;
-           hashingTable[index].add(key);
-           elements.put(key,key);
-           m++ ;
-            if((double)(m*1.0)/(n*n) >= 0.7){
+            hashingTable[index] = new ArrayList<>() ;
+            hashingTable[index].add(key);
+            elements.put(key,1);
+            m++ ;
+            if((double)(m*1.0)/(n*n) >= loadFactor){
                 rehashDueToLoadFactor();
             }
-           return true ;
-       }
-        if(hashing(hashingTable[index].get(0)) == numberInLong)
-            return false ;
-        elements.put(key,key);
+            return 1 ;
+        }
+        if(hashing(hashingTable[index].get(0)) == numberInLong){
+            int temp = elements.get(key);
+            elements.replace(key , temp + 1 );
+            return temp + 1 ;
+        }
+
+        elements.put(key,1);
         m++;
         rehashing();
-        if((double)(m*1.0)/(n*n) >= 0.7){
-           rehashDueToLoadFactor();
+        if((double)(m*1.0)/(n*n) >= loadFactor){
+            rehashDueToLoadFactor();
         }
-       return true ;
+        return 1 ;
     }
     private void rehashDueToLoadFactor(){
         n *=2 ;
@@ -129,7 +133,7 @@ public class PerfectHashingNSquareMethod<T> implements PerfectHashing<T>{
     private void rehashing(){
         boolean collision ;
         do {
-             collision = false ;
+            collision = false ;
             numberOfRehashing++;
             hashingTable = new ArrayList[n * n] ;
             randomizeMatrix();
