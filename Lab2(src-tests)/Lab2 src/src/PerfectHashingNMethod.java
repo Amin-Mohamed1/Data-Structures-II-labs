@@ -15,7 +15,22 @@ public class PerfectHashingNMethod<T> implements PerfectHashing<T> {
         inputSize = 64; // Default number to be inserted
         initialize();
     }
-
+    public int getUtilizedSpace() {
+        int utilizedSpace = 0;
+        // Count elements in the first-level table
+        for (ArrayList<T> list : firstLevelTable) {
+            if (list != null) {
+                utilizedSpace += list.size();
+            }
+        }
+        // Count elements in the second-level tables
+        for (PerfectHashingNSquareMethod<T> table : secondLevelTables) {
+            if (table != null) {
+                utilizedSpace += table.getN()*table.getN();
+            }
+        }
+        return utilizedSpace;
+    }
     // Parameterized constructor
     public PerfectHashingNMethod(int inputSize) {
         this.inputSize = inputSize;

@@ -19,6 +19,9 @@ public class PerfectHashingNSquareMethod<T> implements PerfectHashing<T>{
         initialize();
 
     }
+    public int getUtilizedSpace() {
+        return getN()*getN();
+    }
     private void initialize(){
 
         // array of hashing >> size = 4 * 4  = 16
