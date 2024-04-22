@@ -6,10 +6,9 @@ public class PerfectHashingNMethod<T> implements PerfectHashing<T> {
     private int numberOfRehashing = 0;
     public final double loadFactor = 0.7;
     private int[][] universalHashingMatrix;
-    private HashMap<T, T> elements = new HashMap<>(); // To keep track of elements
+    private ArrayList<T> elements = new ArrayList<>(); // To keep track of elements
     private ArrayList<T>[] firstLevelTable;
     private PerfectHashingNSquareMethod<T>[] secondLevelTables;
-    private int m; // number of elements in hashing array
 
     // Default constructor
     public PerfectHashingNMethod() {
@@ -28,7 +27,6 @@ public class PerfectHashingNMethod<T> implements PerfectHashing<T> {
         firstLevelTable = new ArrayList[inputSize * 5];
         secondLevelTables = new PerfectHashingNSquareMethod[inputSize * 5];
         universalHashingMatrix = new int[(int) Math.floor(Math.log10(inputSize * 5) / Math.log10(2))][63];
-        m=0;
         randomizeMatrix();
     }
 
@@ -61,28 +59,19 @@ public class PerfectHashingNMethod<T> implements PerfectHashing<T> {
         if (firstLevelTable[index] == null || firstLevelTable[index].isEmpty()){
             firstLevelTable[index] = new ArrayList<>();
             firstLevelTable[index].add(key);
-            elements.put(key, key);
-            m++;
-            if((double)(m*1.0)/(inputSize * 5) >= 0.7){
-                rehashDueToLoadFactor();
-            }
-            printFirstLevelTable();
-            printSecondLevelTables();
+            elements.add(key);
+//            printFirstLevelTable();
+//            printSecondLevelTables();
             return true;
         }
         int size = firstLevelTable[index].size();
         // Rehash each element into the appropriate second-level table
-        if (elements.containsKey(key))
+        if (elements.contains(key))
             return false;
-        elements.put(key, key);
-        m++;
-        if((double)(m*1.0)/(inputSize * 5) >= 0.7){
-            rehashDueToLoadFactor();
-            return true;
-        }
+        elements.add(key);
         secondLevelHash(index, key, size + 1);
-        printFirstLevelTable();
-        printSecondLevelTables();
+//        printFirstLevelTable();
+//        printSecondLevelTables();
         return true;
     }
 
@@ -93,12 +82,12 @@ public class PerfectHashingNMethod<T> implements PerfectHashing<T> {
         if (firstLevelTable[index] == null)
             return false;
         if (secondLevelTables[index] != null) {
-            printFirstLevelTable();
-            printSecondLevelTables();
+//            printFirstLevelTable();
+//            printSecondLevelTables();
             return secondLevelTables[index].search(key);
         }
-        printFirstLevelTable();
-        printSecondLevelTables();
+//        printFirstLevelTable();
+//        printSecondLevelTables();
         return true;
     }
 
@@ -106,29 +95,38 @@ public class PerfectHashingNMethod<T> implements PerfectHashing<T> {
     @Override
     public boolean delete(T key) {
         int index = computeFirstLevelHash(key);
-        if (firstLevelTable[index] == null)
+        if (firstLevelTable[index] == null || !firstLevelTable[index].contains(key))
             return false;
         // Delete the element from the appropriate second-level table
         if (secondLevelTables[index] != null){
             firstLevelTable[index].remove(key);
             if(secondLevelTables[index].delete(key)){
                 elements.remove(key);
-                m--;
-                printFirstLevelTable();
-                printSecondLevelTables();
+//                printFirstLevelTable();
+//                printSecondLevelTables();
                 return true;
             }
-            printFirstLevelTable();
-            printSecondLevelTables();
+//            printFirstLevelTable();
+//            printSecondLevelTables();
             return false;
         }
         firstLevelTable[index].remove(key);
         elements.remove(key);
-        m--;
-        printFirstLevelTable();
-        printSecondLevelTables();
+//        printFirstLevelTable();
+//        printSecondLevelTables();
         return true;
     }
+
+    @Override
+    public int batchInsert(T[] ele) {
+        int failed = 0;
+        for (T e : ele) {
+            if (!insert(e))
+                failed++;
+        }
+        return failed;
+    }
+
     // Hashing function
     private long computeHash(T key) {
         // Hashing logic based on key type
@@ -146,46 +144,12 @@ public class PerfectHashingNMethod<T> implements PerfectHashing<T> {
         universalHashingMatrix = Computation.getRandomMatrix(row, col);
     }
     public int getNumberOfRehashing() {
+        numberOfRehashing = 0;
+        for(PerfectHashingNSquareMethod<T> table : secondLevelTables)
+            if(table != null)
+                numberOfRehashing += table.getNumberOfRehashing();
         return numberOfRehashing;
     }
-    private void rehashDueToLoadFactor() {
-        inputSize *= 2;
-        initialize();
-        rehashingByLoadFactor();
-    }
-    private void rehashingByLoadFactor(){
-        numberOfRehashing++;
-        for(T key : elements.keySet()){
-            insert(key);
-        }
-    }
-    /*// Rehash due to load factor
-
-    // Rehashing based on load factor
-    private void rehashingByLoadFactor() {
-        boolean collision;
-        do {
-            collision = false;
-            numberOfRehashing++;
-            firstLevelTable = new ArrayList[inputSize * 5];
-            randomizeMatrix();
-            for (Map.Entry<T, T> entry : elements.entrySet()) {
-                long hashCode = computeHash(entry.getKey());
-                int[] binaryHashCode = Computation.decimalToBinary(hashCode, 63);
-                int[] newBinaryHashCode = Computation.matrixMultiplication(universalHashingMatrix, binaryHashCode);
-                int index = Computation.binaryToDecimal(newBinaryHashCode);
-                if (firstLevelTable[index] == null) {
-                    firstLevelTable[index] = new ArrayList<>();
-                    firstLevelTable[index].add(entry.getKey());
-                    firstLevelTable[index].add(entry.getValue());
-                } else {
-                    collision = true;
-                    break;
-                }
-            }
-        } while (collision);
-    }*/
-
     // Print the first-level table
     public void printFirstLevelTable() {
         String RESET = "\u001B[0m";

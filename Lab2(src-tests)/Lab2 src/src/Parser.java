@@ -3,7 +3,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class CSVParser {
+public class Parser {
     public static ArrayList<String> parseCSVFromFile(String filePath) throws IOException {
         ArrayList<String> strings = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {

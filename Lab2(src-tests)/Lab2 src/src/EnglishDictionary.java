@@ -5,7 +5,7 @@ public class EnglishDictionary {
 
     public EnglishDictionary(String s) {
         if ("linear".equals(s))
-            dic = new PerfectHashingNMethod<String>(1);
+            dic = new PerfectHashingNMethod<String>();
         else
             dic = new PerfectHashingNSquareMethod<String>();
     }
