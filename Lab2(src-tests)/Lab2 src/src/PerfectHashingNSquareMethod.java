@@ -93,7 +93,7 @@ public class PerfectHashingNSquareMethod<T> implements PerfectHashing<T>{
             }
             return true ;
         }
-        if(hashing(hashingTable[index].getFirst()) == numberInLong){
+        if(hashing(hashingTable[index].get(0)) == numberInLong){
             return false ;
         }
         m++;
@@ -168,7 +168,7 @@ public class PerfectHashingNSquareMethod<T> implements PerfectHashing<T>{
             hashingTable[index].add(key);
             return true ;
         }
-        if(hashing(hashingTable[index].getFirst()) == numberInLong){
+        if(hashing(hashingTable[index].get(0)) == numberInLong){
             return false ;
         }
         hashingTable[index].add(key);
