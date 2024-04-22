@@ -12,8 +12,11 @@ public class EnglishDictionary {
 
     public int[] insert(String s) {
         int[] result = new int[2];
-            result[0]=dic.insert(s);
-            result[1]=dic.getNumberOfRehashing();
+        if(dic.insert(s))
+            result[0]= 1;
+        else 
+            result[0]= 0;
+        result[1]=dic.getNumberOfRehashing();
         return result;
     }
 
@@ -31,14 +34,10 @@ public class EnglishDictionary {
         return result;
     }
 
-    public int[] batchInsertFromFile(ArrayList<String> list) {
+    public int[] batchInsertFromFile(String[] arr) {
         int[] result = new int[3];
-        for (String s : list) {
-            if (dic.insert(s)==0)
-                result[0]++;
-            else
-                result[1]++;
-        }
+        result[1]= dic.batchInsert(arr);
+        result[0]=arr.length-result[1];
         result[2]=dic.getNumberOfRehashing();
         return result;
     }

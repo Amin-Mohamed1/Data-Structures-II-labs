@@ -65,7 +65,8 @@ public class Driver {
                     String insertFilePath = scanner.nextLine();
                     ArrayList<String> insertStrings = CSVParser.parseCSVFromFile(insertFilePath);
                     System.out.println(insertStrings);
-                    result = dictionary.batchInsertFromFile(insertStrings);
+                    result = dictionary.batchInsertFromFile(Arrays.copyOf(
+                        insertStrings.toArray(), insertStrings.size(), String[].class));
                     System.out.println("Number of newly added strings: " + result[0]);
                     System.out.println("Number of already existing strings: " + result[1]);
                     System.out.println("Number of rehashings: " + result[2]);
