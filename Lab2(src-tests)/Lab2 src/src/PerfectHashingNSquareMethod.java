@@ -19,8 +19,8 @@ public class PerfectHashingNSquareMethod<T> implements PerfectHashing<T>{
         initialize();
 
     }
-    public int getUtilizedSpace() {
-        return getN()*getN();
+    public long getUtilizedSpace() {
+        return ((long)getN())*getN();
     }
     private void initialize(){
 
