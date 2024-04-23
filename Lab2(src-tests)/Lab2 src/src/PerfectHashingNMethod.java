@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class PerfectHashingNMethod<T> implements PerfectHashing<T> {
@@ -6,6 +7,7 @@ public class PerfectHashingNMethod<T> implements PerfectHashing<T> {
     private int numberOfRehashing = 0;
     public final double loadFactor = 0.7;
     private int[][] universalHashingMatrix;
+    int m = 0;
     private ArrayList<T> elements = new ArrayList<>(); // To keep track of elements
     private ArrayList<T>[] firstLevelTable;
     private PerfectHashingNSquareMethod<T>[] secondLevelTables;
@@ -75,6 +77,7 @@ public class PerfectHashingNMethod<T> implements PerfectHashing<T> {
             firstLevelTable[index] = new ArrayList<>();
             firstLevelTable[index].add(key);
             elements.add(key);
+            m++;
 //            printFirstLevelTable();
 //            printSecondLevelTables();
             return true;
@@ -84,6 +87,7 @@ public class PerfectHashingNMethod<T> implements PerfectHashing<T> {
         if (elements.contains(key))
             return false;
         elements.add(key);
+        m++;
         secondLevelHash(index, key, size + 1);
 //        printFirstLevelTable();
 //        printSecondLevelTables();
@@ -117,6 +121,7 @@ public class PerfectHashingNMethod<T> implements PerfectHashing<T> {
             firstLevelTable[index].remove(key);
             if(secondLevelTables[index].delete(key)){
                 elements.remove(key);
+                m--;
 //                printFirstLevelTable();
 //                printSecondLevelTables();
                 return true;
@@ -127,6 +132,7 @@ public class PerfectHashingNMethod<T> implements PerfectHashing<T> {
         }
         firstLevelTable[index].remove(key);
         elements.remove(key);
+        m--;
 //        printFirstLevelTable();
 //        printSecondLevelTables();
         return true;
@@ -134,8 +140,13 @@ public class PerfectHashingNMethod<T> implements PerfectHashing<T> {
 
     @Override
     public int batchInsert(T[] ele) {
+        this.inputSize = ele.length+m;
+        ArrayList<T> old = new ArrayList<>(this.elements);
+        old.addAll(Arrays.asList(ele));
+        initialize();
+        m=0;
         int failed = 0;
-        for (T e : ele) {
+        for (T e : old) {
             if (!insert(e))
                 failed++;
         }
