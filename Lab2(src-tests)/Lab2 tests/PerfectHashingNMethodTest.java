@@ -175,41 +175,116 @@ public class PerfectHashingNMethodTest {
         // get array of random size and with random numbers across all array, it should
         // return the size of the array.size-1
         // (only inserted the first element but could not insert the other array.size-1)
-        int NumberOfTrials = 50;
+        int numberOfTrials = 50;
         int avgOfAvgMemorySpaces = 0;
-        for(int i = 1 ; i <= NumberOfTrials; i++){
+        long avgOfAvgTimes = 0;
+        int avgOfAvgRehashing = 0;
+        for(int i = 1 ; i <= numberOfTrials; i++){
             int size = 300*i;
             Integer[] arr = new Integer[size];
             int FillingTimes = 30;
             int avgMemorySpace = 0;
+            long avgTime = 0;
+            int avgRehashingTimes = 0;
             for(int j = 0 ; j < FillingTimes; j++){
                 PerfectHashingNMethod<Integer> testObject = new PerfectHashingNMethod<>();
                 for(int k = 0 ; k < size; k++){
                     arr[k] = generateRandomNumber(1, 10000);
                 }
+                long start = System.nanoTime();
                 testObject.batchInsert(arr);
+                long end = System.nanoTime();
+                int rehashingTimes = testObject.getNumberOfRehashing();
+                avgTime+= (end-start)/1000000;
                 avgMemorySpace+= testObject.getUtilizedSpace();
-
+                avgRehashingTimes+= rehashingTimes;
             }
             avgMemorySpace/=FillingTimes;
-            System.out.println("Batched numbers = " + size + "-> " + "Average Memory Space " + i + " : " + avgMemorySpace);
+            avgTime/=FillingTimes;
+            avgRehashingTimes/=FillingTimes;
+//            System.out.println("Batched numbers = " + size + "-> " + "Average Memory Space " + i + " : " + avgMemorySpace);
+            System.out.println("Batched numbers = " + size + "-> " + "Average time in " + i + " : " + avgTime + " ms");
+            System.out.println("Batched numbers = " + size + "-> " + "Average Rehashing times in " + i + " : " + avgRehashingTimes + " rehashes");
+
             avgOfAvgMemorySpaces += avgMemorySpace;
+            avgOfAvgTimes+=avgTime;
+            avgOfAvgRehashing+= avgRehashingTimes;
         }
-        avgOfAvgMemorySpaces/=NumberOfTrials;
-        System.out.println("Average of Average : " + avgOfAvgMemorySpaces);
+        avgOfAvgMemorySpaces/=numberOfTrials;
+        avgOfAvgTimes/=numberOfTrials;
+        avgOfAvgRehashing/=numberOfTrials;
+//        System.out.println("Average of Average space : " + avgOfAvgMemorySpaces);
+        System.out.println("Average of Average Time : " + avgOfAvgTimes + " ms");
+        System.out.println("Average number of Rehashing : " + avgOfAvgRehashing + " rehashes");
+    }
+
+    @Test
+    public void testAverageNNumbersWithInsert(){
+        // get array of random size and with random numbers across all array, it should
+        // return the size of the array.size-1
+        // (only inserted the first element but could not insert the other array.size-1)
+        int numberOfTrials = 50;
+        int avgOfAvgMemorySpaces = 0;
+        long avgOfAvgTimes = 0;
+        int avgOfAvgRehashing = 0;
+        for(int i = 1 ; i <= numberOfTrials; i++){
+            int size = 300*i;
+            Integer[] arr = new Integer[size];
+            int FillingTimes = 30;
+            int avgMemorySpace = 0;
+            long avgTime = 0;
+            int avgRehashingTimes = 0;
+            for(int j = 0 ; j < FillingTimes; j++){
+                PerfectHashingNMethod<Integer> testObject = new PerfectHashingNMethod<>();
+                long start = System.nanoTime();
+                for(int k = 0 ; k < size; k++){
+                    arr[k] = generateRandomNumber(1, 10000);
+                    testObject.insert(arr[k]);
+                }
+                long end = System.nanoTime();
+                int rehashingTimes = testObject.getNumberOfRehashing();
+                avgTime+= (end-start)/1000000;
+                avgMemorySpace+= testObject.getUtilizedSpace();
+                avgRehashingTimes+= rehashingTimes;
+            }
+            avgMemorySpace/=FillingTimes;
+            avgTime/=FillingTimes;
+            avgRehashingTimes/=FillingTimes;
+//            System.out.println("Batched numbers = " + size + "-> " + "Average Memory Space " + i + " : " + avgMemorySpace);
+            System.out.println("Inserted numbers = " + size + "-> " + "Average time in " + i + " : " + avgTime + " ms");
+            System.out.println("Inserted numbers = " + size + "-> " + "Average Rehashing times in " + i + " : " + avgRehashingTimes + " rehashes");
+
+            avgOfAvgMemorySpaces += avgMemorySpace;
+            avgOfAvgTimes+=avgTime;
+            avgOfAvgRehashing+= avgRehashingTimes;
+        }
+        avgOfAvgMemorySpaces/=numberOfTrials;
+        avgOfAvgTimes/=numberOfTrials;
+        avgOfAvgRehashing/=numberOfTrials;
+//        System.out.println("Average of Average space : " + avgOfAvgMemorySpaces);
+        System.out.println("Average of Average Time : " + avgOfAvgTimes + " ms");
+        System.out.println("Average number of Rehashing : " + avgOfAvgRehashing + " rehashes");
     }
 
     @Test (timeout = 1000)
     public void testSimpleSearch(){
         PerfectHashingNMethod<String> testObject = new PerfectHashingNMethod<>();
         testObject.insert("simpleText");
-        assertTrue(testObject.search("simpleText"));
+        int count = 0;
+        for(int i = 0 ; i < 1000; i++)
+            if(testObject.search("simpleText"))
+                count++;
+        assertEquals(1000, count);
     }
 
     @Test (timeout = 1000)
     public void testSearchingOnNonExistingElement(){
         PerfectHashingNMethod<String> testObject = new PerfectHashingNMethod<>();
-        assertFalse(testObject.search("notSimple"));
+        int count = 0;
+        for(int i = 0 ; i < 1000; i++)
+            if(!testObject.search("notSimple"))
+                count++;
+        assertEquals(1000, count);
     }
 
     @Test (timeout = 1000)
@@ -222,7 +297,13 @@ public class PerfectHashingNMethodTest {
     @Test (timeout = 1000)
     public void testDeletingNonExistingElement(){
         PerfectHashingNMethod<String> testObject = new PerfectHashingNMethod<>();
-        assertFalse(testObject.delete("notSimple"));
+        testObject.insert("notSimple");
+        testObject.delete("notSimple");
+        int count = 0;
+        for(int i = 0 ; i < 1000; i++)
+            if(!testObject.delete("notSimple"))
+                count++;
+        assertEquals(1000, count);
     }
 
 
