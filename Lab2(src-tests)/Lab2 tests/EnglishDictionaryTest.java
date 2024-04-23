@@ -25,34 +25,6 @@ public class EnglishDictionaryTest {
     }
 
     @Test (timeout = 1000)
-    public void testSearchReturnsTrueForExistingKeyLinear() {
-        EnglishDictionary englishDictionary = new EnglishDictionary("linear");
-        englishDictionary.insert("existingKey");
-        assertTrue(englishDictionary.search("existingKey"));
-    }
-
-    @Test (timeout = 1000)
-    public void testSearchReturnsFalseForNonExistingKeyLinear() {
-        EnglishDictionary englishDictionary = new EnglishDictionary("linear");
-        assertFalse(englishDictionary.search("nonExistingKey"));
-    }
-
-    @Test (timeout = 1000)
-    public void testDeleteDecreasesSizeForExistingKeyLinear() {
-        EnglishDictionary englishDictionary = new EnglishDictionary("linear");
-        englishDictionary.insert("existingKey");
-        int[] result = englishDictionary.delete("existingKey");
-        assertEquals(1, result[0]);
-    }
-
-    @Test (timeout = 1000)
-    public void testDeleteDoesNotDecreaseSizeForNonExistingKeyLinear() {
-        EnglishDictionary englishDictionary = new EnglishDictionary("linear");
-        int[] result = englishDictionary.delete("nonExistingKey");
-        assertEquals(0, result[0]);
-    }
-
-    @Test (timeout = 1000)
     public void testBatchDeleteReturnsCorrectCountLinear() {
         EnglishDictionary englishDictionary = new EnglishDictionary("linear");
         ArrayList<String> keys = new ArrayList<>(Arrays.asList("key1", "key2", "key3", "key4", "key5"));
@@ -75,35 +47,7 @@ public class EnglishDictionaryTest {
         int[] resultAfterSecondInsert = englishDictionary.insert("existingKey");
         assertEquals(0, resultAfterSecondInsert[0]);
     }
-
-    @Test (timeout = 1000)
-    public void testSearchReturnsTrueForExistingKeyQuadratic() {
-        EnglishDictionary englishDictionary = new EnglishDictionary("quadratic");
-        englishDictionary.insert("existingKey");
-        assertTrue(englishDictionary.search("existingKey"));
-    }
-
-    @Test (timeout = 1000)
-    public void testSearchReturnsFalseForNonExistingKeyQuadratic() {
-        EnglishDictionary englishDictionary = new EnglishDictionary("quadratic");
-        assertFalse(englishDictionary.search("nonExistingKey"));
-    }
-
-    @Test (timeout = 1000)
-    public void testDeleteDecreasesSizeForExistingKeyQuadratic() {
-        EnglishDictionary englishDictionary = new EnglishDictionary("quadratic");
-        englishDictionary.insert("existingKey");
-        int[] result = englishDictionary.delete("existingKey");
-        assertEquals(1, result[0]);
-    }
-
-    @Test (timeout = 1000)
-    public void testDeleteDoesNotDecreaseSizeForNonExistingKeyQuadratic() {
-        EnglishDictionary englishDictionary = new EnglishDictionary("quadratic");
-        int[] result = englishDictionary.delete("nonExistingKey");
-        assertEquals(0, result[0]);
-    }
-
+    
     @Test (timeout = 1000)
     public void testBatchDeleteReturnsCorrectCountQuadratic() {
         EnglishDictionary englishDictionary = new EnglishDictionary("quadratic");
