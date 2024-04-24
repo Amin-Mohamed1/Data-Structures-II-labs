@@ -167,14 +167,14 @@ public class PerfectHashingNSquareMethodTest {
         // return the size of the array.size-1
         // (only inserted the first element but could not insert the other array.size-1)
         int numberOfTrials = 50;
-        int avgOfAvgMemorySpaces = 0;
+        long avgOfAvgMemorySpaces = 0;
         long avgOfAvgTimes = 0;
         int avgOfAvgRehashing = 0;
         for(int i = 1 ; i <= numberOfTrials; i++){
             int size = 300*i;
             Integer[] arr = new Integer[size];
             int FillingTimes = 30;
-            int avgMemorySpace = 0;
+            long avgMemorySpace = 0;
             long avgTime = 0;
             int avgRehashingTimes = 0;
             for(int j = 0 ; j < FillingTimes; j++){
@@ -196,9 +196,9 @@ public class PerfectHashingNSquareMethodTest {
             avgMemorySpace/=FillingTimes;
             avgTime/=FillingTimes;
             avgRehashingTimes/=FillingTimes;
-//            System.out.println("Batched numbers = " + size + "-> " + "Average Memory Space " + i + " : " + avgMemorySpace);
-            System.out.println("Batched numbers = " + size + "-> " + "Average time in " + i + " : " + avgTime + " ms");
-            System.out.println("Batched numbers = " + size + "-> " + "Average Rehashing times in " + i + " : " + avgRehashingTimes + " rehashes");
+            System.out.println("Batched numbers = " + size + "-> " + "Average Memory Space " + i + " : " + avgMemorySpace);
+//            System.out.println("Batched numbers = " + size + "-> " + "Average time in " + i + " : " + avgTime + " ms");
+//            System.out.println("Batched numbers = " + size + "-> " + "Average Rehashing times in " + i + " : " + avgRehashingTimes + " rehashes");
 
             avgOfAvgMemorySpaces += avgMemorySpace;
             avgOfAvgTimes+=avgTime;
@@ -207,9 +207,9 @@ public class PerfectHashingNSquareMethodTest {
         avgOfAvgMemorySpaces/=numberOfTrials;
         avgOfAvgTimes/=numberOfTrials;
         avgOfAvgRehashing/=numberOfTrials;
-//        System.out.println("Average of Average space : " + avgOfAvgMemorySpaces);
-        System.out.println("Average of Average Time : " + avgOfAvgTimes + " ms");
-        System.out.println("Average number of Rehashing : " + avgOfAvgRehashing + " rehashes");
+        System.out.println("Average of Average space : " + avgOfAvgMemorySpaces);
+//        System.out.println("Average of Average Time : " + avgOfAvgTimes + " ms");
+//        System.out.println("Average number of Rehashing : " + avgOfAvgRehashing + " rehashes");
     }
 
     @Test(timeout = 1000000)
@@ -218,14 +218,14 @@ public class PerfectHashingNSquareMethodTest {
         // return the size of the array.size-1
         // (only inserted the first element but could not insert the other array.size-1)
         int numberOfTrials = 50;
-        int avgOfAvgMemorySpaces = 0;
+        long avgOfAvgMemorySpaces = 0;
         long avgOfAvgTimes = 0;
         int avgOfAvgRehashing = 0;
         for(int i = 1 ; i <= numberOfTrials; i++){
             int size = 300*i;
             Integer[] arr = new Integer[size];
             int FillingTimes = 30;
-            int avgMemorySpace = 0;
+            long avgMemorySpace = 0;
             long avgTime = 0;
             int avgRehashingTimes = 0;
             for(int j = 0 ; j < FillingTimes; j++){
@@ -246,9 +246,9 @@ public class PerfectHashingNSquareMethodTest {
             avgMemorySpace/=FillingTimes;
             avgTime/=FillingTimes;
             avgRehashingTimes/=FillingTimes;
-//            System.out.println("Batched numbers = " + size + "-> " + "Average Memory Space " + i + " : " + avgMemorySpace);
-            System.out.println("Inserted numbers = " + size + "-> " + "Average time in " + i + " : " + avgTime + " ms");
-            System.out.println("Inserted numbers = " + size + "-> " + "Average Rehashing times in " + i + " : " + avgRehashingTimes + " rehashes");
+            System.out.println("Batched numbers = " + size + "-> " + "Average Memory Space " + i + " : " + avgMemorySpace);
+//            System.out.println("Inserted numbers = " + size + "-> " + "Average time in " + i + " : " + avgTime + " ms");
+//            System.out.println("Inserted numbers = " + size + "-> " + "Average Rehashing times in " + i + " : " + avgRehashingTimes + " rehashes");
 
             avgOfAvgMemorySpaces += avgMemorySpace;
             avgOfAvgTimes+=avgTime;
@@ -257,9 +257,9 @@ public class PerfectHashingNSquareMethodTest {
         avgOfAvgMemorySpaces/=numberOfTrials;
         avgOfAvgTimes/=numberOfTrials;
         avgOfAvgRehashing/=numberOfTrials;
-//        System.out.println("Average of Average space : " + avgOfAvgMemorySpaces);
-        System.out.println("Average of Average Time : " + avgOfAvgTimes + " ms");
-        System.out.println("Average number of Rehashing : " + avgOfAvgRehashing + " rehashes");
+        System.out.println("Average of Average space : " + avgOfAvgMemorySpaces);
+//        System.out.println("Average of Average Time : " + avgOfAvgTimes + " ms");
+//        System.out.println("Average number of Rehashing : " + avgOfAvgRehashing + " rehashes");
     }
 
     @Test (timeout = 1000)

@@ -1,3 +1,5 @@
+package org.example;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -17,22 +19,24 @@ public class PerfectHashingNMethod<T> implements PerfectHashing<T> {
         inputSize = 64; // Default number to be inserted
         initialize();
     }
+
     public int getUtilizedSpace() {
         int utilizedSpace = 0;
         // Count elements in the first-level table
-        for (ArrayList<T> list : firstLevelTable) {
-            if (list != null) {
-                utilizedSpace += list.size();
-            }
-        }
+        // for (ArrayList<T> list : firstLevelTable) {
+        // if (list != null) {
+        // utilizedSpace += list.size();
+        // }
+        // }
         // Count elements in the second-level tables
         for (PerfectHashingNSquareMethod<T> table : secondLevelTables) {
             if (table != null) {
-                utilizedSpace += table.getN()*table.getN();
+                utilizedSpace += table.getN() * table.getN();
             }
         }
-        return utilizedSpace;
+        return utilizedSpace + firstLevelTable.length;
     }
+
     // Parameterized constructor
     public PerfectHashingNMethod(int inputSize) {
         this.inputSize = inputSize;
@@ -63,23 +67,23 @@ public class PerfectHashingNMethod<T> implements PerfectHashing<T> {
         if (firstLevelTable[index].contains(key))
             return;
         firstLevelTable[index].add(key);
-        for(T entry : firstLevelTable[index]){
+        for (T entry : firstLevelTable[index]) {
             nSquare.insert(entry);
         }
-        secondLevelTables[index] =  nSquare;
+        secondLevelTables[index] = nSquare;
     }
 
     // Insertion
     @Override
     public boolean insert(T key) {
         int index = computeFirstLevelHash(key);
-        if (firstLevelTable[index] == null || firstLevelTable[index].isEmpty()){
+        if (firstLevelTable[index] == null || firstLevelTable[index].isEmpty()) {
             firstLevelTable[index] = new ArrayList<>();
             firstLevelTable[index].add(key);
             elements.add(key);
             m++;
-//            printFirstLevelTable();
-//            printSecondLevelTables();
+            // printFirstLevelTable();
+            // printSecondLevelTables();
             return true;
         }
         int size = firstLevelTable[index].size();
@@ -89,8 +93,8 @@ public class PerfectHashingNMethod<T> implements PerfectHashing<T> {
         elements.add(key);
         m++;
         secondLevelHash(index, key, size + 1);
-//        printFirstLevelTable();
-//        printSecondLevelTables();
+        // printFirstLevelTable();
+        // printSecondLevelTables();
         return true;
     }
 
@@ -101,12 +105,12 @@ public class PerfectHashingNMethod<T> implements PerfectHashing<T> {
         if (firstLevelTable[index] == null)
             return false;
         if (secondLevelTables[index] != null) {
-//            printFirstLevelTable();
-//            printSecondLevelTables();
+            // printFirstLevelTable();
+            // printSecondLevelTables();
             return secondLevelTables[index].search(key);
         }
-//        printFirstLevelTable();
-//        printSecondLevelTables();
+        // printFirstLevelTable();
+        // printSecondLevelTables();
         return true;
     }
 
@@ -117,34 +121,34 @@ public class PerfectHashingNMethod<T> implements PerfectHashing<T> {
         if (firstLevelTable[index] == null || !firstLevelTable[index].contains(key))
             return false;
         // Delete the element from the appropriate second-level table
-        if (secondLevelTables[index] != null){
+        if (secondLevelTables[index] != null) {
             firstLevelTable[index].remove(key);
-            if(secondLevelTables[index].delete(key)){
+            if (secondLevelTables[index].delete(key)) {
                 elements.remove(key);
                 m--;
-//                printFirstLevelTable();
-//                printSecondLevelTables();
+                // printFirstLevelTable();
+                // printSecondLevelTables();
                 return true;
             }
-//            printFirstLevelTable();
-//            printSecondLevelTables();
+            // printFirstLevelTable();
+            // printSecondLevelTables();
             return false;
         }
         firstLevelTable[index].remove(key);
         elements.remove(key);
         m--;
-//        printFirstLevelTable();
-//        printSecondLevelTables();
+        // printFirstLevelTable();
+        // printSecondLevelTables();
         return true;
     }
 
     @Override
     public int batchInsert(T[] ele) {
-        this.inputSize = ele.length+m;
+        this.inputSize = ele.length + m;
         ArrayList<T> old = new ArrayList<>(this.elements);
         old.addAll(Arrays.asList(ele));
         initialize();
-        m=0;
+        m = 0;
         int failed = 0;
         for (T e : old) {
             if (!insert(e))
@@ -163,31 +167,34 @@ public class PerfectHashingNMethod<T> implements PerfectHashing<T> {
             default -> throw new IllegalArgumentException("Unsupported key type: " + key.getClass().getName());
         };
     }
+
     // Randomize the universal hashing matrix
     private void randomizeMatrix() {
         int row = universalHashingMatrix.length;
         int col = universalHashingMatrix[0].length;
         universalHashingMatrix = Computation.getRandomMatrix(row, col);
     }
+
     public int getNumberOfRehashing() {
         numberOfRehashing = 0;
-        for(PerfectHashingNSquareMethod<T> table : secondLevelTables)
-            if(table != null)
+        for (PerfectHashingNSquareMethod<T> table : secondLevelTables)
+            if (table != null)
                 numberOfRehashing += table.getNumberOfRehashing();
         return numberOfRehashing;
     }
+
     // Print the first-level table
     public void printFirstLevelTable() {
         String RESET = "\u001B[0m";
         String CYAN = "\u001B[36m";
         System.out.println(CYAN + "\nFirst Level Table:" + RESET);
         for (int i = 0; i < firstLevelTable.length; i++) {
-            System.out.print("Index = " + i );
+            System.out.print("Index = " + i);
             if (firstLevelTable[i] != null) {
-                if(!firstLevelTable[i].isEmpty())
+                if (!firstLevelTable[i].isEmpty())
                     System.out.print("  → elements = ");
                 int s = 0;
-                for (T key : firstLevelTable[i]){
+                for (T key : firstLevelTable[i]) {
                     s++;
                     System.out.print(key + " ");
                     if (s != firstLevelTable[i].size())
@@ -206,7 +213,7 @@ public class PerfectHashingNMethod<T> implements PerfectHashing<T> {
         int count = 0;
         for (int i = 0; i < secondLevelTables.length; i++) {
             if (secondLevelTables[i] != null) {
-                if(count == 0){
+                if (count == 0) {
                     System.out.println(CYAN + "\nSecond Level Tables:" + RESET);
                     count++;
                 }

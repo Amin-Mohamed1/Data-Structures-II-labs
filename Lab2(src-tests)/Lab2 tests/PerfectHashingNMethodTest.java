@@ -202,9 +202,9 @@ public class PerfectHashingNMethodTest {
             avgMemorySpace/=FillingTimes;
             avgTime/=FillingTimes;
             avgRehashingTimes/=FillingTimes;
-//            System.out.println("Batched numbers = " + size + "-> " + "Average Memory Space " + i + " : " + avgMemorySpace);
-            System.out.println("Batched numbers = " + size + "-> " + "Average time in " + i + " : " + avgTime + " ms");
-            System.out.println("Batched numbers = " + size + "-> " + "Average Rehashing times in " + i + " : " + avgRehashingTimes + " rehashes");
+            System.out.println("Batched numbers = " + size + "-> " + "Average Memory Space " + i + " : " + avgMemorySpace);
+//            System.out.println("Batched numbers = " + size + "-> " + "Average time in " + i + " : " + avgTime + " ms");
+//            System.out.println("Batched numbers = " + size + "-> " + "Average Rehashing times in " + i + " : " + avgRehashingTimes + " rehashes");
 
             avgOfAvgMemorySpaces += avgMemorySpace;
             avgOfAvgTimes+=avgTime;
@@ -213,9 +213,9 @@ public class PerfectHashingNMethodTest {
         avgOfAvgMemorySpaces/=numberOfTrials;
         avgOfAvgTimes/=numberOfTrials;
         avgOfAvgRehashing/=numberOfTrials;
-//        System.out.println("Average of Average space : " + avgOfAvgMemorySpaces);
-        System.out.println("Average of Average Time : " + avgOfAvgTimes + " ms");
-        System.out.println("Average number of Rehashing : " + avgOfAvgRehashing + " rehashes");
+        System.out.println("Average of Average space : " + avgOfAvgMemorySpaces);
+//        System.out.println("Average of Average Time : " + avgOfAvgTimes + " ms");
+//        System.out.println("Average number of Rehashing : " + avgOfAvgRehashing + " rehashes");
     }
 
     @Test
