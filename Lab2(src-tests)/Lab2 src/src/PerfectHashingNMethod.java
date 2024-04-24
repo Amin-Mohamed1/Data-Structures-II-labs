@@ -1,5 +1,3 @@
-package org.example;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -102,7 +100,7 @@ public class PerfectHashingNMethod<T> implements PerfectHashing<T> {
     @Override
     public boolean search(T key) {
         int index = computeFirstLevelHash(key);
-        if (firstLevelTable[index] == null)
+        if (firstLevelTable[index] == null || !firstLevelTable[index].contains(key))
             return false;
         if (secondLevelTables[index] != null) {
             // printFirstLevelTable();

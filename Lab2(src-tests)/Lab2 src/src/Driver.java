@@ -9,6 +9,15 @@ public class Driver {
         String RED = "\u001B[31m";
         String GREEN = "\u001B[32m";
         String YELLOW = "\u001B[33m";
+        System.out.println(RED+"\n" +
+                "  _    _           _     _             \n" +
+                " | |  | |         | |   (_)            \n" +
+                " | |__| | __ _ ___| |__  _ _ __   __ _ \n" +
+                " |  __  |/ _` / __| '_ \\| | '_ \\ / _` |\n" +
+                " | |  | | (_| \\__ \\ | | | | | | | (_| |\n" +
+                " |_|  |_|\\__,_|___/_| |_|_|_| |_|\\__, |\n" +
+                "                                  __/ |\n" +
+                "                                 |___/ \n"+RESET);
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter the type of the backend perfect hashing (e.g., quadratic/linear):");
         String backendType = scanner.nextLine();
