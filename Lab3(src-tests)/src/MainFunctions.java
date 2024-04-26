@@ -31,7 +31,6 @@ public class MainFunctions {
     }
 
     public void chooseMethodOneSrc(int method, int source) {
-        long startTime = System.currentTimeMillis();
         this.method = method;
         switch (method) {
             case 1:
@@ -44,12 +43,9 @@ public class MainFunctions {
                 cycle = gp.floydWarshall(costTwoD, parentsTwoD);
                 break;
         }
-        long endTime = System.currentTimeMillis();
-        System.out.println(ANSI_CYAN + "Time for one source: " + (endTime - startTime) + " milliseconds" + ANSI_RESET);
     }
 
     public void chooseMethodForAll(int method) {
-        long startTime = System.currentTimeMillis();
         this.method = method;
         forAll = true;
         switch (method) {
@@ -69,8 +65,6 @@ public class MainFunctions {
                 chooseMethodOneSrc(method, 0);
                 break;
         }
-        long endTime = System.currentTimeMillis();
-        System.out.println(ANSI_CYAN + "Time for all pairs: " + (endTime - startTime) + " milliseconds" + ANSI_RESET);
     }
 
     public int getCostFor(int src, int dest) {
