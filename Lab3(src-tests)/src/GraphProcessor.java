@@ -36,12 +36,12 @@ public class GraphProcessor {
                 if (i!= j) {
                     prev[j] = Math.min(prev[i] + edges[i][j],prev[j]);
                     if(prev[j] != costs[j]) 
-                         return false;
+                         return true;
             }
         }
     }
     
-        return true;
+        return false;
     }
 
     public boolean floydWarshall(int[][] costs, int[][] predecessor) {
