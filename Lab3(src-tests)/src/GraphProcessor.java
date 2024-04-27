@@ -1,6 +1,4 @@
-
 import java.util.Arrays;
-
 
 public class GraphProcessor {
     static Graph graph;
@@ -14,36 +12,34 @@ public class GraphProcessor {
     }
     public boolean bellmanFord(int source, int[] costs, int[] parents) {
         // Implemented By Habiba 
+        
         int n = graph.Size();
-        boolean noCycle = true;
-        int[][] edges = new int[n][n];
-
-        initializeArrays(edges,costs ,n,parents);
-        populateArrays(edges);
+        Arrays.fill(costs, Integer.MAX_VALUE);
 
         costs[source] = 0;
-        for (int i = 0; i < n; i++) {
-                for (int j = 0; j < n; j++) {
-                    if (i!= j && edges[i][j]!= Integer.MAX_VALUE && costs[i] + edges[i][j] < costs[j]) {
-                        costs[j] = costs[i] + edges[i][j];
-                        parents[j] = i;
-                    }
+        for (int i = 1; i < n; i++) {
+            for (Edge edge : graph.getEdges()) {
+                int u = edge.getSourceVertex();
+                int v = edge.getDestinationVertex();
+                int weight = edge.getWeight();
+    
+                if (costs[u] != Integer.MAX_VALUE && costs[u] + weight < costs[v]) {
+                    costs[v] = costs[u] + weight;
+                    parents[v] = u;
                 }
-        }
-        int []prev = Arrays.copyOf(costs, n);
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (i!= j) {
-                    prev[j] = Math.min(prev[i] + edges[i][j],prev[j]);
-                    if(prev[j] != costs[j]) 
-                         return true;
             }
         }
+        for (Edge edge : graph.getEdges()) {
+            int u = edge.getSourceVertex();
+            int v = edge.getDestinationVertex();
+            int weight = edge.getWeight();
+            if (costs[u] != Integer.MAX_VALUE && costs[u] + weight < costs[v]) {
+                return false;   //negative cycle detected
+            }
+        }
+        return true;
     }
     
-        return false;
-    }
-
     public boolean floydWarshall(int[][] costs, int[][] predecessor) {
         int n = graph.getV();
         boolean noCycle = true;
@@ -88,18 +84,5 @@ public class GraphProcessor {
             parents[e.getSourceVertex()][e.getDestinationVertex()] = e.getSourceVertex();
         }
     }
-    private void initializeArrays(int [][]edges,int[] costs, int n,int [] parents) {
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-               edges[i][j]=Integer.MAX_VALUE;
-            }
-            costs[i] = Integer.MAX_VALUE;
-            parents[i] = -1;
-        }
-    }
-    private void populateArrays(int[][] costs) {
-        for (Edge e: graph.getEdges()) {
-            costs[e.getSourceVertex()][e.getDestinationVertex()] = e.getWeight();
-        }
-    }
+    
 }
