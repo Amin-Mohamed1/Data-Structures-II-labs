@@ -42,7 +42,7 @@ public class Main {
                     allPairsShortestPathsMenu(mainFunctions, scanner);
                     break;
                 case "3":
-                    checkNegativeCycles(mainFunctions);
+                    checkNegativeCyclesMenu(mainFunctions, scanner);
                     break;
                 case "4":
                     System.out.println(ANSI_CYAN + "Exiting..." + ANSI_RESET);
@@ -198,16 +198,40 @@ public class Main {
         }
     }
 
-    private static void checkNegativeCycles(MainFunctions mainFunctions) {
+    private static void checkNegativeCyclesMenu(MainFunctions mainFunctions, Scanner scanner) {
         clearScreen();
+        System.out.println(ANSI_CYAN + "Check for Negative Cycles Menu:" + ANSI_RESET);
+        System.out.println("Select Method:");
+        System.out.println("1. " + ANSI_GREEN + "Bellman-Ford" + ANSI_RESET);
+        System.out.println("2. " + ANSI_GREEN + "Floyd-Warshall" + ANSI_RESET);
+        System.out.print("Enter your choice: ");
+        String methodChoice = scanner.nextLine();
+        switch (methodChoice) {
+            case "1":
+                checkNegativeCycles(mainFunctions, true);
+                break;
+            case "2":
+                checkNegativeCycles(mainFunctions, false);
+                break;
+            default:
+                System.out.println(ANSI_RED + "Invalid choice." + ANSI_RESET);
+        }
+        promptToContinue();
+    }
+
+    private static void checkNegativeCycles(MainFunctions mainFunctions, boolean useBellmanFord) {
+        clearScreen();
+        if (useBellmanFord) {
+            mainFunctions.chooseMethodForAll(2);
+        } else {
+            mainFunctions.chooseMethodForAll(3);
+        }
         System.out.println(ANSI_CYAN + "Checking for Negative Cycles..." + ANSI_RESET);
-        boolean hasNegativeCycles = mainFunctions.detectNegativeCycles();
-        if (hasNegativeCycles) {
+        if (mainFunctions.detectNegativeCycles()) {
             System.out.println(ANSI_RED + "Negative cycles detected." + ANSI_RESET);
         } else {
             System.out.println(ANSI_GREEN + "No negative cycles found." + ANSI_RESET);
         }
-        promptToContinue();
     }
 
     private static int askForSourceNode(Scanner scanner) {
