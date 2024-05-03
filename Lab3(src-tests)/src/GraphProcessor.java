@@ -10,9 +10,8 @@ public class GraphProcessor {
     public void dijkstra(int source, int[] costs, int[] parents) {
         // Implemented by Rafi
     }
+
     public boolean bellmanFord(int source, int[] costs, int[] parents) {
-        // Implemented By Habiba 
-        
         int n = graph.Size();
         Arrays.fill(costs, Integer.MAX_VALUE);
 
@@ -22,7 +21,7 @@ public class GraphProcessor {
                 int u = edge.getSourceVertex();
                 int v = edge.getDestinationVertex();
                 int weight = edge.getWeight();
-    
+
                 if (costs[u] != Integer.MAX_VALUE && costs[u] + weight < costs[v]) {
                     costs[v] = costs[u] + weight;
                     parents[v] = u;
@@ -39,7 +38,7 @@ public class GraphProcessor {
         }
         return true;
     }
-    
+
     public boolean floydWarshall(int[][] costs, int[][] predecessor) {
         int n = graph.getV();
         boolean noCycle = true;
@@ -50,7 +49,7 @@ public class GraphProcessor {
         for (int k = 0; k < n; k++) {
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < n; j++) {
-                    if (i != j && costs[i][k] != Integer.MAX_VALUE && costs[k][j] != Integer.MAX_VALUE) {
+                    if (costs[i][k] != Integer.MAX_VALUE && costs[k][j] != Integer.MAX_VALUE) {
                         if (costs[i][k] + costs[k][j] < costs[i][j]) {
                             costs[i][j] = costs[i][k] + costs[k][j];
                             predecessor[i][j] = predecessor[k][j];
@@ -72,17 +71,21 @@ public class GraphProcessor {
     private void initializeArrays(int[][] costs, int[][] parents, int n) {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                costs[i][j] = Integer.MAX_VALUE;
+                if(i != j) {
+                    costs[i][j] = Integer.MAX_VALUE;
+                }
+                else{
+                    costs[i][j] = 0;
+                }
                 parents[i][j] = -1;
             }
         }
     }
 
     private void populateArrays(int[][] costs, int[][] parents) {
-        for (Edge e: graph.getEdges()) {
+        for (Edge e : graph.getEdges()) {
             costs[e.getSourceVertex()][e.getDestinationVertex()] = e.getWeight();
             parents[e.getSourceVertex()][e.getDestinationVertex()] = e.getSourceVertex();
         }
     }
-    
 }
