@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class MainFunctions {
     // Constants for ANSI escape codes
@@ -31,6 +32,7 @@ public class MainFunctions {
     }
 
     public void chooseMethodOneSrc(int method, int source) {
+        long startTime = System.currentTimeMillis();
         this.method = method;
         switch (method) {
             case 1:
@@ -43,13 +45,23 @@ public class MainFunctions {
                 cycle = gp.floydWarshall(costTwoD, parentsTwoD);
                 break;
         }
+        long endTime = System.currentTimeMillis();
+        System.out.println(ANSI_CYAN + "Time for one source: " + (endTime - startTime) + " milliseconds" + ANSI_RESET);
     }
 
     public void chooseMethodForAll(int method) {
+        long startTime = System.currentTimeMillis();
         this.method = method;
         forAll = true;
         switch (method) {
             case 1:
+                for (int i = 0; i < graph.size(); i++) {
+                    chooseMethodOneSrc(method, i);
+                    for (int j = 0; j < graph.size(); j++) {
+                        costTwoD[i][j] = costOneD[j];
+                        parentsTwoD[i][j] = parentsOneD[j];
+                    }
+                }
             case 2:
                 for (int i = 0; i < graph.size(); i++) {
                     chooseMethodOneSrc(method, i);
@@ -65,6 +77,8 @@ public class MainFunctions {
                 chooseMethodOneSrc(method, 0);
                 break;
         }
+        long endTime = System.currentTimeMillis();
+        System.out.println(ANSI_CYAN + "Time for all pairs: " + (endTime - startTime) + " milliseconds" + ANSI_RESET);
     }
 
     public int getCostFor(int src, int dest) {
