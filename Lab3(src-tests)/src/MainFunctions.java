@@ -32,7 +32,7 @@ public class MainFunctions {
     }
 
     public void chooseMethodOneSrc(int method, int source) {
-        long startTime = System.currentTimeMillis();
+
         this.method = method;
         switch (method) {
             case 1:
@@ -45,12 +45,9 @@ public class MainFunctions {
                 cycle = gp.floydWarshall(costTwoD, parentsTwoD);
                 break;
         }
-        long endTime = System.currentTimeMillis();
-        System.out.println(ANSI_CYAN + "Time for one source: " + (endTime - startTime) + " milliseconds" + ANSI_RESET);
     }
 
     public void chooseMethodForAll(int method) {
-        long startTime = System.currentTimeMillis();
         this.method = method;
         forAll = true;
         switch (method) {
@@ -62,6 +59,7 @@ public class MainFunctions {
                         parentsTwoD[i][j] = parentsOneD[j];
                     }
                 }
+                break;
             case 2:
                 for (int i = 0; i < graph.size(); i++) {
                     chooseMethodOneSrc(method, i);
@@ -77,8 +75,6 @@ public class MainFunctions {
                 chooseMethodOneSrc(method, 0);
                 break;
         }
-        long endTime = System.currentTimeMillis();
-        System.out.println(ANSI_CYAN + "Time for all pairs: " + (endTime - startTime) + " milliseconds" + ANSI_RESET);
     }
 
     public int getCostFor(int src, int dest) {
@@ -95,8 +91,7 @@ public class MainFunctions {
     public List<Integer> getPathFor(int src, int dest) {
         List<Integer> path = new ArrayList<>();
         switch (method) {
-            case 1:
-            case 2:
+            case 1, 2:
                 if (forAll) {
                     if (parentsTwoD[src][dest] != -1) {
                         int cur = dest;
@@ -130,7 +125,6 @@ public class MainFunctions {
         }
         return path;
     }
-
     public boolean detectNegativeCycles() {
         return !cycle;
     }
