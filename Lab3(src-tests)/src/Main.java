@@ -110,7 +110,8 @@ public class Main {
                     System.out.print("Enter destination node: ");
                     dest = Integer.parseInt(scanner.nextLine());
                     List<Integer> path = mainFunctions.getPathFor(source, dest);
-                    if (!path.isEmpty()) {
+                    cost = mainFunctions.getCostFor(source, dest);
+                    if (cost != Integer.MAX_VALUE) {
                         System.out.println("Path from node " + source + " to " + dest + ": " + path);
                     } else {
                         System.out.println(ANSI_RED + "Error: Invalid choice or path not found." + ANSI_RESET);
@@ -183,7 +184,8 @@ public class Main {
                     System.out.print("Enter destination node: ");
                     dest = Integer.parseInt(scanner.nextLine());
                     List<Integer> path = mainFunctions.getPathFor(src, dest);
-                    if (!path.isEmpty()) {
+                    cost = mainFunctions.getCostFor(src, dest);
+                    if (cost != Integer.MAX_VALUE) {
                         System.out.println("Path from node " + src + " to " + dest + ": " + path);
                     } else {
                         System.out.println(ANSI_RED + "Error: Invalid choice or path not found." + ANSI_RESET);
