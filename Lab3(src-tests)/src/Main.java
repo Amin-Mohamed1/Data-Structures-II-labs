@@ -99,7 +99,7 @@ public class Main {
                     System.out.print("Enter destination node: ");
                     dest = Integer.parseInt(scanner.nextLine());
                     cost = mainFunctions.getCostFor(source, dest);
-                    if (cost != Integer.MIN_VALUE) {
+                    if (cost != Integer.MAX_VALUE) {
                         System.out.println("Cost of path from node " + source + " to " + dest + ": " + cost);
                     } else {
                         System.out.println(ANSI_RED + "Error: Invalid choice or path not found." + ANSI_RESET);
@@ -170,7 +170,7 @@ public class Main {
                     System.out.print("Enter destination node: ");
                     dest = Integer.parseInt(scanner.nextLine());
                     cost = mainFunctions.getCostFor(src, dest);
-                    if (cost != Integer.MIN_VALUE) {
+                    if (cost != Integer.MAX_VALUE) {
                         System.out.println("Cost of path from node " + src + " to " + dest + ": " + cost);
                     } else {
                         System.out.println(ANSI_RED + "Error: Invalid choice or path not found." + ANSI_RESET);
