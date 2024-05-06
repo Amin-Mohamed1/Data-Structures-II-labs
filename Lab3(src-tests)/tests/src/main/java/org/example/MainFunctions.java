@@ -3,9 +3,7 @@ package org.example;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 public class MainFunctions {
     // Constants for ANSI escape codes
@@ -18,79 +16,6 @@ public class MainFunctions {
     private GraphProcessor gp;
     private int[] costOneD;
     private int[] parentsOneD;
-
-    public GraphProcessor getGp() {
-        return gp;
-    }
-
-    public void setGp(GraphProcessor gp) {
-        this.gp = gp;
-    }
-
-    public Graph getGraph() {
-        return graph;
-    }
-
-    public void setGraph(Graph graph) {
-        this.graph = graph;
-    }
-
-    public int[] getCostOneD() {
-        return costOneD;
-    }
-
-    public void setCostOneD(int[] costOneD) {
-        this.costOneD = costOneD;
-    }
-
-    public int[] getParentsOneD() {
-        return parentsOneD;
-    }
-
-    public void setParentsOneD(int[] parentsOneD) {
-        this.parentsOneD = parentsOneD;
-    }
-
-    public int[][] getCostTwoD() {
-        return costTwoD;
-    }
-
-    public void setCostTwoD(int[][] costTwoD) {
-        this.costTwoD = costTwoD;
-    }
-
-    public int[][] getParentsTwoD() {
-        return parentsTwoD;
-    }
-
-    public void setParentsTwoD(int[][] parentsTwoD) {
-        this.parentsTwoD = parentsTwoD;
-    }
-
-    public boolean isCycle() {
-        return cycle;
-    }
-
-    public void setCycle(boolean cycle) {
-        this.cycle = cycle;
-    }
-
-    public boolean isForAll() {
-        return forAll;
-    }
-
-    public void setForAll(boolean forAll) {
-        this.forAll = forAll;
-    }
-
-    public int getMethod() {
-        return method;
-    }
-
-    public void setMethod(int method) {
-        this.method = method;
-    }
-
     private int[][] costTwoD;
     private int[][] parentsTwoD;
     private boolean cycle;
@@ -103,11 +28,12 @@ public class MainFunctions {
         gp = new GraphProcessor(graph);
         costOneD = new int[graph.size()];
         parentsOneD = new int[graph.size()];
-        costTwoD = new int[graph.size()][graph.size()];
+        costTwoD = new int[graph.size()][graph.size()]; // Initialize costTwoD array
         parentsTwoD = new int[graph.size()][graph.size()];
     }
 
     public void chooseMethodOneSrc(int method, int source) {
+
         this.method = method;
         switch (method) {
             case 1:
@@ -163,40 +89,37 @@ public class MainFunctions {
         };
     }
 
-
     public List<Integer> getPathFor(int src, int dest) {
         List<Integer> path = new ArrayList<>();
         switch (method) {
-            case 1:
-            case 2:
+            case 1, 2:
                 if (forAll) {
                     if (parentsTwoD[src][dest] != -1) {
                         int cur = dest;
-                        path.add(0, cur);
+                        path.addFirst(cur);
                         while (cur != src && cur != -1) {
                             cur = parentsTwoD[src][cur];
-                            path.add(0, cur);
+                            path.addFirst(cur);
                         }
                     }
                 } else {
                     if (parentsOneD[dest] != -1) {
                         int cur = dest;
-                        path.add(0, cur);
+                        path.addFirst(cur);
                         while (cur != src && cur != -1) {
                             cur = parentsOneD[cur];
-                            path.add(0, cur);
+                            path.addFirst(cur);
                         }
                     }
                 }
-
                 break;
             case 3:
                 if (parentsTwoD[src][dest] != -1) {
                     int cur = dest;
-                    path.add(0, cur);
+                    path.addFirst(cur);
                     while (cur != src) {
                         cur = parentsTwoD[src][cur];
-                        path.add(0, cur);
+                        path.addFirst(cur);
                     }
                 }
                 break;
@@ -207,4 +130,8 @@ public class MainFunctions {
     public boolean detectNegativeCycles() {
         return !cycle;
     }
+
+
 }
+
+

@@ -11,21 +11,16 @@ public class GraphProcessor {
 
     public static void dijkstra(int source, int[] costs, int[] parent)  {
         int n = graph.size();
+        //System.out.println("n is = " + n);
         PriorityQueue<Node> min = new PriorityQueue<>((x, y) -> x.cost - y.cost);
         boolean[]visited = new boolean[n];
-
         Arrays.fill(costs,Integer.MAX_VALUE);
         Arrays.fill(visited , false);
-
         costs[source] = 0 ;
-
         for(int i = 0 ; i < n ;++i )
-            parent[i] = -1;
-
+            parent[i] = -1 ;
         min.add(new Node(source , 0));
-
         int[][] matrix = graph.getAdjacencyMatrix();
-
         while (!min.isEmpty()) {
             int node = min.peek().vertex;
             int weight = min.peek().cost;
@@ -33,9 +28,8 @@ public class GraphProcessor {
             if (visited[node])
                 continue;
             visited[node] = true;
-            /* List<Edge> adj = graph.getAdj(node);
-                System.out.print("vertex is = " + node);
-             */
+            List<Edge> adj = graph.getAdj(node);
+//            System.out.print("vertex is = " + node);
             for(int i = 0 ; i < n ; i++){
                 if(matrix[node][i] == 0 || node == i )
                     continue;
@@ -58,7 +52,7 @@ public class GraphProcessor {
     public boolean bellmanFord(int source, int[] costs, int[] parents) {
         int n = graph.Size();
         Arrays.fill(costs, Integer.MAX_VALUE);
-
+         Arrays.fill(parents,-1);
         costs[source] = 0;
         for (int i = 1; i < n; i++) {
             for (Edge edge : graph.getEdges()) {
