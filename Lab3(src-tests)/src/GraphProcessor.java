@@ -1,4 +1,4 @@
-import java.util.Arrays;
+import java.util.*;
 
 public class GraphProcessor {
     static Graph graph;
@@ -8,8 +8,33 @@ public class GraphProcessor {
     }
 
     public void dijkstra(int source, int[] costs, int[] parents) {
-        // Implemented by Rafi
+        Arrays.fill(costs, Integer.MAX_VALUE);
+        Arrays.fill(parents, -1);
+        boolean[] visited = new boolean[graph.getV()];
+        costs[source] = 0;
+        PriorityQueue<Node> pq = new PriorityQueue<>();
+        pq.offer(new Node(source, 0));
+        int[][] matrix = graph.getAdjacencyMatrix();
+
+        while (!pq.isEmpty()) {
+            Node node = pq.poll();
+            int u = node.vertex;
+            if (visited[u])
+                continue;
+            visited[u] = true;
+            for (int v = 0; v < graph.getV(); v++) {
+                if (matrix[u][v] != 0) {
+                    int newCost = costs[u] + matrix[u][v];
+                    if (newCost < costs[v]) {
+                        costs[v] = newCost;
+                        parents[v] = u;
+                        pq.offer(new Node(v, newCost));
+                    }
+                }
+            }
+        }
     }
+
 
     public boolean bellmanFord(int source, int[] costs, int[] parents) {
         int n = graph.Size();
