@@ -7,14 +7,21 @@ import java.util.Scanner;
 public class Graph {
     private final int V;
     private final List<Edge> edges;
+    private final int[][] adjacencyMatrix;
 
     public Graph(int V) {
         this.V = V;
         edges = new ArrayList<>();
+        adjacencyMatrix = new int[V][V];
     }
 
     public void addEdge(int u, int v, int weight) {
         edges.add(new Edge(u, v, weight));
+        adjacencyMatrix[u][v] = weight;
+    }
+
+    public int[][] getAdjacencyMatrix() {
+        return adjacencyMatrix;
     }
 
     public List<Edge> getEdges() {
