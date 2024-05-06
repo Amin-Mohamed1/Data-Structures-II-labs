@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -84,7 +85,7 @@ public class MainFunctions {
                 yield costOneD[dest];
             }
             case 3 -> costTwoD[src][dest];
-            default -> Integer.MIN_VALUE; // Indicates an error
+            default -> Integer.MAX_VALUE; // Indicates an error
         };
     }
 
@@ -125,7 +126,12 @@ public class MainFunctions {
         }
         return path;
     }
+
     public boolean detectNegativeCycles() {
         return !cycle;
     }
+
+
 }
+
+
