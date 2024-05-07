@@ -22,6 +22,78 @@ public class MainFunctions {
     private int method = 0;
     private boolean forAll = false;
 
+    public Graph getGraph() {
+        return graph;
+    }
+
+    public void setGraph(Graph graph) {
+        this.graph = graph;
+    }
+
+    public GraphProcessor getGp() {
+        return gp;
+    }
+
+    public void setGp(GraphProcessor gp) {
+        this.gp = gp;
+    }
+
+    public int[] getCostOneD() {
+        return costOneD;
+    }
+
+    public void setCostOneD(int[] costOneD) {
+        this.costOneD = costOneD;
+    }
+
+    public int[] getParentsOneD() {
+        return parentsOneD;
+    }
+
+    public void setParentsOneD(int[] parentsOneD) {
+        this.parentsOneD = parentsOneD;
+    }
+
+    public int[][] getCostTwoD() {
+        return costTwoD;
+    }
+
+    public void setCostTwoD(int[][] costTwoD) {
+        this.costTwoD = costTwoD;
+    }
+
+    public int[][] getParentsTwoD() {
+        return parentsTwoD;
+    }
+
+    public void setParentsTwoD(int[][] parentsTwoD) {
+        this.parentsTwoD = parentsTwoD;
+    }
+
+    public boolean isCycle() {
+        return cycle;
+    }
+
+    public void setCycle(boolean cycle) {
+        this.cycle = cycle;
+    }
+
+    public int getMethod() {
+        return method;
+    }
+
+    public void setMethod(int method) {
+        this.method = method;
+    }
+
+    public boolean isForAll() {
+        return forAll;
+    }
+
+    public void setForAll(boolean forAll) {
+        this.forAll = forAll;
+    }
+
     public void createGraph(String path) throws FileNotFoundException {
         File file = new File(path);
         graph = Graph.initialize(file);

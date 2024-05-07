@@ -19,7 +19,8 @@ public class Graph {
 
     public void addEdge(int u, int v, int weight) {
         edges.add(new Edge(u, v, weight));
-        adjacencyMatrix[u][v] = weight;
+        if(adjacencyMatrix[u][v] > weight || adjacencyMatrix[u][v] == 0)
+            adjacencyMatrix[u][v] = weight;
     }
 
     public int[][] getAdjacencyMatrix() {

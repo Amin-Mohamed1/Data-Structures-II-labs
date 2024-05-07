@@ -121,9 +121,20 @@ public class GraphProcessor {
     }
 
     private void populateArrays(int[][] costs, int[][] parents) {
+        boolean[][] arr = new boolean[costs.length][costs.length];
         for (Edge e : graph.getEdges()) {
-            costs[e.getSourceVertex()][e.getDestinationVertex()] = e.getWeight();
-            parents[e.getSourceVertex()][e.getDestinationVertex()] = e.getSourceVertex();
+            if(!arr[e.getSourceVertex()][e.getDestinationVertex()]){
+                costs[e.getSourceVertex()][e.getDestinationVertex()] = e.getWeight();
+                arr[e.getSourceVertex()][e.getDestinationVertex()] = true;
+                parents[e.getSourceVertex()][e.getDestinationVertex()] = e.getSourceVertex();
+            }
+            else{
+                if(e.getWeight() < costs[e.getSourceVertex()][e.getDestinationVertex()]){
+                    costs[e.getSourceVertex()][e.getDestinationVertex()] = e.getWeight();
+                    arr[e.getSourceVertex()][e.getDestinationVertex()] = true;
+                    parents[e.getSourceVertex()][e.getDestinationVertex()] = e.getSourceVertex();
+                }
+            }
         }
     }
 }
