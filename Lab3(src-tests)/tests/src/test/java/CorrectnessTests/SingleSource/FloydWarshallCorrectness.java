@@ -8,11 +8,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import static java.lang.Thread.sleep;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.Test;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FloydWarshallCorrectness{
     public static final String ANSI_RESET = "\u001B[0m";
@@ -45,6 +43,7 @@ public class FloydWarshallCorrectness{
         assertEquals(ans, obj.getPathFor(1, 10));
         int cost = obj.getCostFor(1, 10);
         assertEquals(39, cost);
+        assertTrue(obj.isCycle()); //doesnt have negative cycle
         System.out.println("Path: " + ans);
         System.out.println("Cost: " + cost);
         System.out.println(ANSI_GREEN+"mediumTestHighDensity Passed"+ANSI_RESET);
@@ -58,6 +57,7 @@ public class FloydWarshallCorrectness{
         List<Integer> ans = new ArrayList<>(List.of());
         assertEquals(ans, obj.getPathFor(9, 0));
         assertEquals(Integer.MAX_VALUE, obj.getCostFor(9, 0));
+        assertTrue(obj.isCycle()); //doesnt have negative cycle
         System.out.println("Path: " + ans);
         System.out.println("Cost: ∞");
         System.out.println(ANSI_GREEN+"mediumTestHighDensity Passed"+ANSI_RESET);
@@ -76,6 +76,7 @@ public class FloydWarshallCorrectness{
         assertEquals(ans, obj.getPathFor(0, 49));
         int cost = obj.getCostFor(0, 49);
         assertEquals(674, cost);
+        assertTrue(obj.isCycle()); //doesnt have negative cycle
         System.out.println("Path: " + ans);
         System.out.println("Cost: " + cost);
         System.out.println(ANSI_GREEN+"BigTestHighDensity1 Passed"+ANSI_RESET);
@@ -93,6 +94,7 @@ public class FloydWarshallCorrectness{
         assertEquals(ans, obj.getPathFor(0, 48));
         int cost = obj.getCostFor(0, 48);
         assertEquals(648, cost);
+        assertTrue(obj.isCycle()); //doesnt have negative cycle
         System.out.println("Path: " + ans);
         System.out.println("Cost: " + cost);
         System.out.println(ANSI_GREEN+"BigTestHighDensity2 Passed"+ANSI_RESET);
@@ -109,6 +111,7 @@ public class FloydWarshallCorrectness{
         List<Integer> actual = obj.getPathFor(0, 4);
         assertTrue(ans1.equals(actual) || ans2.equals(actual));
         int cost = obj.getCostFor(0, 4);
+        assertTrue(obj.isCycle()); //doesnt have negative cycle
         assertEquals(-5, cost);
         System.out.println("path: " + actual);
         System.out.println("Cost: " + cost);
@@ -126,6 +129,7 @@ public class FloydWarshallCorrectness{
         List<Integer> actual = obj.getPathFor(0, 3);
         assertTrue(ans1.equals(actual) || ans2.equals(actual));
         int cost = obj.getCostFor(0, 3);
+        assertTrue(obj.isCycle()); //doesnt have negative cycle
         assertEquals(5, cost);
         System.out.println("Path: " + actual);
         System.out.println("Cost: " + cost);
@@ -140,6 +144,7 @@ public class FloydWarshallCorrectness{
         obj.chooseMethodOneSrc(3, 0);
         List<Integer> ans = new ArrayList<>(List.of(0,2,3,5));
         List<Integer> actual = obj.getPathFor(0, 5);
+        assertFalse(obj.isCycle()); //have negative cycle
         assertEquals(ans, actual);
         int cost = obj.getCostFor(0, 5);
         assertEquals(3, cost);
@@ -149,16 +154,17 @@ public class FloydWarshallCorrectness{
     }
 
     @Test(timeout = 5000)
-    public void testNegativeCycleHardVersion() throws FileNotFoundException {
+    public void testNegativeHardVersion() throws FileNotFoundException {
         obj = new MainFunctions();
         System.out.println(ANSI_YELLOW+"Testing testEqualShortestPathsWithPositiveValues"+ANSI_RESET);
-        obj.createGraph("/home/ubuntu/GitHub/CSE224-Data-Structures-2-Labs/Lab3(src-tests)/tests/src/test/negativeCycleHardVersion.txt");
+        obj.createGraph("/home/ubuntu/GitHub/CSE224-Data-Structures-2-Labs/Lab3(src-tests)/tests/src/test/negativeHardVersion.txt");
         obj.chooseMethodOneSrc(3, 0);
         List<Integer> ans = new ArrayList<>(List.of(0,2,3,1,4,5));
         List<Integer> actual = obj.getPathFor(0, 5);
         assertEquals(ans, actual);
         int cost = obj.getCostFor(0, 5);
         assertEquals(7, cost);
+        assertTrue(obj.isCycle()); //doesnt have negative cycle
         System.out.println("Path: " + actual);
         System.out.println("Cost: " + cost);
         System.out.println(ANSI_GREEN+"testNegativeCycle Passed"+ANSI_RESET);
@@ -192,6 +198,7 @@ public class FloydWarshallCorrectness{
         int cost = obj.getCostFor(0, 1);
         assertEquals(1, cost);
         System.out.println("Path: " + ans);
+        assertTrue(obj.isCycle()); //doesnt have negative cycle
         System.out.println("Cost: " + cost);
         System.out.println(ANSI_GREEN+"multipleEdges Passed"+ANSI_RESET);
     }

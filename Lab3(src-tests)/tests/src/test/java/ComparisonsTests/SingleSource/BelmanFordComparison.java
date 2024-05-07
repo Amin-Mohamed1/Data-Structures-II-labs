@@ -392,7 +392,7 @@ public class BelmanFordComparison {
         }
         System.out.println("Average time for 1,000 nodes and 1,000,000 edges: " + avg/10 + " microseconds");
     }
-    /*2,000 nodes*/
+                                                        /*2,000 nodes*/
     /*===============================================================================================================*/
     @Test
     public void test_2000_10() throws FileNotFoundException {

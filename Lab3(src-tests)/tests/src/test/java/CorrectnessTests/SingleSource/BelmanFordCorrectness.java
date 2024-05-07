@@ -8,8 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BelmanFordCorrectness {
     public static final String ANSI_RESET = "\u001B[0m";
@@ -27,6 +26,7 @@ public class BelmanFordCorrectness {
         List<Integer> ans = new ArrayList<>(List.of(0, 2, 4));
         assertEquals(ans, obj.getPathFor(0, 4));
         int cost = obj.getCostFor(0, 4);
+        assertTrue(obj.isCycle()); //doesnt have negative cycle
         assertEquals(6, cost);
         System.out.println("Path: " + ans);
         System.out.println("Cost: " + cost);
@@ -90,6 +90,7 @@ public class BelmanFordCorrectness {
         assertEquals(ans, obj.getPathFor(0, 48));
         int cost = obj.getCostFor(0, 48);
         assertEquals(648, cost);
+        assertTrue(obj.isCycle()); //doesnt have negative cycle
         System.out.println("Path: " + ans);
         System.out.println("Cost: " + cost);
         System.out.println(ANSI_GREEN+"BigTestHighDensity2 Passed"+ANSI_RESET);
@@ -140,22 +141,24 @@ public class BelmanFordCorrectness {
         assertEquals(ans, actual);
         int cost = obj.getCostFor(0, 5);
         assertEquals(-7, cost);
+        assertFalse(obj.isCycle()); //has negative cycle
         System.out.println("Path: " + actual);
         System.out.println("Cost: " + cost);
         System.out.println(ANSI_GREEN+"testNegativeCycle Passed"+ANSI_RESET);
     }
 
     @Test(timeout = 5000)
-    public void testNegativeCycleHardVersion() throws FileNotFoundException {
+    public void testNegativeHardVersion() throws FileNotFoundException {
         obj = new MainFunctions();
         System.out.println(ANSI_YELLOW+"Testing testEqualShortestPathsWithPositiveValues"+ANSI_RESET);
-        obj.createGraph("/home/ubuntu/GitHub/CSE224-Data-Structures-2-Labs/Lab3(src-tests)/tests/src/test/negativeCycleHardVersion.txt");
+        obj.createGraph("/home/ubuntu/GitHub/CSE224-Data-Structures-2-Labs/Lab3(src-tests)/tests/src/test/negativeHardVersion.txt");
         obj.chooseMethodOneSrc(2, 0);
         List<Integer> ans = new ArrayList<>(List.of(0,2,3,1,4,5));
         List<Integer> actual = obj.getPathFor(0, 5);
         assertEquals(ans, actual);
         int cost = obj.getCostFor(0, 5);
         assertEquals(7, cost);
+        assertTrue(obj.isCycle()); //doesnt have negative cycle
         System.out.println("Path: " + actual);
         System.out.println("Cost: " + cost);
         System.out.println(ANSI_GREEN+"testNegativeCycle Passed"+ANSI_RESET);
@@ -172,6 +175,7 @@ public class BelmanFordCorrectness {
         assertEquals(ans, obj.getPathFor(0, 0));
         int cost = obj.getCostFor(0, 0);
         assertEquals(0, cost);
+        assertTrue(obj.isCycle()); //doesnt have negative cycle
         System.out.println("Path: " + ans);
         System.out.println("Cost: " + cost);
         System.out.println(ANSI_GREEN+"oneNode Passed"+ANSI_RESET);
@@ -188,6 +192,7 @@ public class BelmanFordCorrectness {
         assertEquals(ans, obj.getPathFor(0, 1));
         int cost = obj.getCostFor(0, 1);
         assertEquals(1, cost);
+        assertTrue(obj.isCycle()); //doesnt have negative cycle
         System.out.println("Path: " + ans);
         System.out.println("Cost: " + cost);
         System.out.println(ANSI_GREEN+"multipleEdges Passed"+ANSI_RESET);
@@ -202,6 +207,7 @@ public class BelmanFordCorrectness {
         assertEquals(ans, obj.getPathFor(0, 999));
         int cost = obj.getCostFor(0, 999);
         assertEquals(1, cost);
+        assertTrue(obj.isCycle()); //doesnt have negative cycle
         System.out.println("Path: " + ans);
         System.out.println("Cost: " + cost);
         System.out.println(ANSI_GREEN+"GiganticPathOneHighDensity Passed"+ANSI_RESET);
@@ -224,9 +230,11 @@ public class BelmanFordCorrectness {
         assertEquals(ans3, obj.getPathFor(0, 12));
         int cost2 = obj.getCostFor(0, 2);
         assertEquals(6, cost2);
+        assertTrue(obj.isCycle()); //doesnt have negative cycle
         int cost3 = obj.getCostFor(0, 12);
         assertEquals(7, cost3);
         assertEquals(ans4, obj.getPathFor(0, 8));
+        assertTrue(obj.isCycle()); //doesnt have negative cycle
         int cost4 = obj.getCostFor(0, 8);
         assertEquals(20, cost4);
     }
@@ -242,12 +250,14 @@ public class BelmanFordCorrectness {
         List<Integer> ans3 = new ArrayList<>(List.of(0, 1));
         assertEquals(ans1, obj.getPathFor(0, 4));
         int cost1 = obj.getCostFor(0, 4);
+        assertTrue(obj.isCycle()); //doesnt have negative cycle
         assertEquals(6, cost1);
         assertEquals(ans2, obj.getPathFor(0, 4));
         int cost2 = obj.getCostFor(0, 4);
         assertEquals(6, cost2);
         assertEquals(ans3, obj.getPathFor(0, 1));
         int cost3 = obj.getCostFor(0, 1);
+        assertTrue(obj.isCycle()); //doesnt have negative cycle
         assertEquals(7, cost3);
     }
 }

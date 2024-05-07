@@ -147,10 +147,10 @@ public class DijkstraCorrectness {
     }
 
     @Test (timeout = 5000)
-    public void testNegativeCycleHardVersion() throws FileNotFoundException {
+    public void testNegativeHardVersion() throws FileNotFoundException {
         obj = new MainFunctions();
         System.out.println(ANSI_YELLOW+"Testing testEqualShortestPathsWithPositiveValues"+ANSI_RESET);
-        obj.createGraph("/home/ubuntu/GitHub/CSE224-Data-Structures-2-Labs/Lab3(src-tests)/tests/src/test/negativeCycleHardVersion.txt");
+        obj.createGraph("/home/ubuntu/GitHub/CSE224-Data-Structures-2-Labs/Lab3(src-tests)/tests/src/test/negativeHardVersion.txt");
         obj.chooseMethodForAll(1);
         List<Integer> ans = new ArrayList<>(List.of(0,2,3,1,4,5));
         List<Integer> actual = obj.getPathFor(0, 5);
