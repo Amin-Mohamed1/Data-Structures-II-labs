@@ -3,10 +3,8 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 public class MainFunctions {
-    // Constants for ANSI escape codes
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
@@ -109,12 +107,13 @@ public class MainFunctions {
         this.method = method;
         switch (method) {
             case 1:
-                gp.dijkstra(source, costOneD, parentsOneD);
+                GraphProcessor.dijkstra(source, costOneD, parentsOneD);
                 break;
             case 2:
                 cycle = gp.bellmanFord(source, costOneD, parentsOneD);
                 break;
             case 3:
+                forAll = true;
                 cycle = gp.floydWarshall(costTwoD, parentsTwoD);
                 break;
         }
@@ -122,21 +121,10 @@ public class MainFunctions {
 
     public void chooseMethodForAll(int method) {
         this.method = method;
-        forAll = true;
         switch (method) {
-            case 1:
+            case 1, 2:
                 for (int i = 0; i < graph.size(); i++) {
                     chooseMethodOneSrc(method, i);
-                    for (int j = 0; j < graph.size(); j++) {
-                        costTwoD[i][j] = costOneD[j];
-                        parentsTwoD[i][j] = parentsOneD[j];
-                    }
-                }
-                break;
-            case 2:
-                for (int i = 0; i < graph.size(); i++) {
-                    chooseMethodOneSrc(method, i);
-                    if (!cycle) return;
                     for (int j = 0; j < graph.size(); j++) {
                         costTwoD[i][j] = costOneD[j];
                         parentsTwoD[i][j] = parentsOneD[j];
@@ -144,13 +132,15 @@ public class MainFunctions {
                 }
                 break;
             case 3:
-                System.out.println("Working in Floyd...");
                 chooseMethodOneSrc(method, 0);
                 break;
         }
     }
 
     public int getCostFor(int src, int dest) {
+        System.out.println(Arrays.toString(costOneD));
+        System.out.println(Arrays.deepToString(costTwoD));
+        System.out.println(forAll + " :>>");
         return switch (method) {
             case 1, 2 -> {
                 if (forAll) yield costTwoD[src][dest];
