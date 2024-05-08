@@ -1,3 +1,4 @@
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -7,7 +8,9 @@ public class Main {
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_CYAN = "\u001B[36m";
 
-    public static void main(String[] args) {
+    static String graphPath;
+
+    public static void main(String[] args) throws FileNotFoundException {
         MainFunctions mainFunctions = new MainFunctions();
         Scanner scanner = new Scanner(System.in);
 
@@ -16,7 +19,7 @@ public class Main {
             clearScreen();
             System.out.print("Enter the path of the graph file: ");
             try {
-                String graphPath = scanner.nextLine();
+                graphPath = scanner.nextLine();
                 mainFunctions.createGraph(graphPath);
                 initialized = true;
             } catch (Exception e) {
@@ -57,6 +60,7 @@ public class Main {
         clearScreen();
         System.out.println(ANSI_CYAN + "Single Source Shortest Paths Menu:" + ANSI_RESET);
         int source = askForSourceNode(scanner);
+
         if (source != -1) {
             System.out.println("Select Method:");
             System.out.println("1. " + ANSI_GREEN + "Dijkstra" + ANSI_RESET);
@@ -66,14 +70,17 @@ public class Main {
             String methodChoice = scanner.nextLine();
             switch (methodChoice) {
                 case "1":
+                    mainFunctions.setForAll(false);
                     mainFunctions.chooseMethodOneSrc(1, source);
                     singleSourceShortestPathsSubMenu(mainFunctions, scanner, source);
                     break;
                 case "2":
+                    mainFunctions.setForAll(false);
                     mainFunctions.chooseMethodOneSrc(2, source);
                     singleSourceShortestPathsSubMenu(mainFunctions, scanner, source);
                     break;
                 case "3":
+                    mainFunctions.setForAll(true);
                     mainFunctions.chooseMethodOneSrc(3, source);
                     singleSourceShortestPathsSubMenu(mainFunctions, scanner, source);
                     break;
@@ -137,14 +144,17 @@ public class Main {
         String methodChoice = scanner.nextLine();
         switch (methodChoice) {
             case "1":
+                mainFunctions.setForAll(true);
                 mainFunctions.chooseMethodForAll(1);
                 allPairsShortestPathsSubMenu(mainFunctions, scanner);
                 break;
             case "2":
+                mainFunctions.setForAll(true);
                 mainFunctions.chooseMethodForAll(2);
                 allPairsShortestPathsSubMenu(mainFunctions, scanner);
                 break;
             case "3":
+                mainFunctions.setForAll(true);
                 mainFunctions.chooseMethodForAll(3);
                 allPairsShortestPathsSubMenu(mainFunctions, scanner);
                 break;
