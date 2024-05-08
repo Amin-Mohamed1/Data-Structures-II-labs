@@ -54,6 +54,7 @@ public class GraphProcessor {
 
 
     public boolean bellmanFord(int source, int[] costs, int[] parents) {
+
         int n = graph.Size();
         Arrays.fill(costs, Integer.MAX_VALUE);
 
@@ -70,6 +71,12 @@ public class GraphProcessor {
                 }
             }
         }
+        System.out.println("=========================");
+        for(int i = 0; i < n; i++){
+            System.out.print(costs[i] + " ");
+        }
+        System.out.println("=========================");
+
         for (Edge edge : graph.getEdges()) {
             int u = edge.getSourceVertex();
             int v = edge.getDestinationVertex();
@@ -107,6 +114,14 @@ public class GraphProcessor {
                 break;
             }
         }
+        System.out.println("=========================");
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < n; j++){
+                System.out.print(costs[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println("=========================");
         return noCycle;
     }
 
