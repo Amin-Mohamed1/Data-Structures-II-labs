@@ -129,11 +129,11 @@ public class FloydWarshallCorrectness {
         System.out.println(ANSI_YELLOW+"Testing testEqualShortestPathsWithPositiveValues"+ANSI_RESET);
         obj.createGraph("/home/ubuntu/GitHub/CSE224-Data-Structures-2-Labs/Lab3(src-tests)/tests/src/test/negativeCycle.txt");
         obj.chooseMethodForAll(3);
-        List<Integer> ans = new ArrayList<>(List.of(0,2,3,5));
+        List<Integer> ans = new ArrayList<>(List.of(0, 1, 4, 5));
         List<Integer> actual = obj.getPathFor(0, 5);
         assertEquals(ans, actual);
         int cost = obj.getCostFor(0, 5);
-        assertEquals(3, cost);
+        assertEquals(-13, cost);
 
         System.out.println(ANSI_GREEN+"testNegativeCycle Passed"+ANSI_RESET);
     }

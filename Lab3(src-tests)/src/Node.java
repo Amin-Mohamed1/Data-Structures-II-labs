@@ -1,3 +1,5 @@
+package org.example;
+
 class Node implements Comparable<Node> {
     int vertex;
     int cost;

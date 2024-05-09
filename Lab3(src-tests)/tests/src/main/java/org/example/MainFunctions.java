@@ -109,12 +109,15 @@ public class MainFunctions {
         this.method = method;
         switch (method) {
             case 1:
+                forAll = false;
                 gp.dijkstra(source, costOneD, parentsOneD);
                 break;
             case 2:
+                forAll = false;
                 cycle = gp.bellmanFord(source, costOneD, parentsOneD);
                 break;
             case 3:
+                forAll = true;
                 cycle = gp.floydWarshall(costTwoD, parentsTwoD);
                 break;
         }
@@ -127,21 +130,25 @@ public class MainFunctions {
             case 1:
                 for (int i = 0; i < graph.size(); i++) {
                     chooseMethodOneSrc(method, i);
+                    forAll = true;
                     for (int j = 0; j < graph.size(); j++) {
                         costTwoD[i][j] = costOneD[j];
                         parentsTwoD[i][j] = parentsOneD[j];
                     }
                 }
+                forAll = true;
                 break;
             case 2:
                 for (int i = 0; i < graph.size(); i++) {
                     chooseMethodOneSrc(method, i);
-                    if (!cycle) return;
+                    forAll = true;
                     for (int j = 0; j < graph.size(); j++) {
                         costTwoD[i][j] = costOneD[j];
                         parentsTwoD[i][j] = parentsOneD[j];
                     }
+                    if (!cycle) return; //----------------------->
                 }
+                forAll = true;
                 break;
             case 3:
                 System.out.println("Working in Floyd...");

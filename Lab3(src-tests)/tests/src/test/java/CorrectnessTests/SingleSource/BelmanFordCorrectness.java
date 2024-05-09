@@ -260,4 +260,42 @@ public class BelmanFordCorrectness {
         assertTrue(obj.isCycle()); //doesnt have negative cycle
         assertEquals(7, cost3);
     }
+    @Test(timeout = 5000)
+    public void senario3Test() throws FileNotFoundException {
+        obj = new MainFunctions();
+        System.out.println(ANSI_YELLOW + "Testing senario3Test" + ANSI_RESET);
+        obj.createGraph("/home/ubuntu/GitHub/CSE224-Data-Structures-2-Labs/Lab3(src-tests)/tests/output.txt");
+        List<Integer> ans1 = new ArrayList<>(List.of(0, 2, 3));
+        obj.chooseMethodOneSrc(2,0);
+        assertEquals(ans1, obj.getPathFor(0, 3));
+        int cost1 = obj.getCostFor(0, 3);
+        assertEquals(-9, cost1);
+        obj.chooseMethodOneSrc(1,0);
+        assertEquals(ans1, obj.getPathFor(0, 3));
+        int cost2 = obj.getCostFor(0, 3);
+        assertEquals(-3, cost2);
+        obj.chooseMethodOneSrc(2,0);
+        assertEquals(ans1, obj.getPathFor(0, 3));
+        int cost3 = obj.getCostFor(0, 3);
+        assertEquals(-9, cost3);
+    }
+    @Test
+    public void senario4Test() throws FileNotFoundException {
+        obj = new MainFunctions();
+        System.out.println(ANSI_YELLOW + "Testing senario3Test" + ANSI_RESET);
+        obj.createGraph("/home/ubuntu/GitHub/CSE224-Data-Structures-2-Labs/Lab3(src-tests)/tests/output.txt");
+        List<Integer> ans1 = new ArrayList<>(List.of(0, 2, 3));
+        obj.chooseMethodOneSrc(2,0);
+        assertEquals(ans1, obj.getPathFor(0, 3));
+        int cost1 = obj.getCostFor(0, 3);
+        assertEquals(-9, cost1);
+        obj.chooseMethodForAll(1);
+        assertEquals(ans1, obj.getPathFor(0, 3));
+        int cost2 = obj.getCostFor(0, 3);
+        assertEquals(-3, cost2);
+        obj.chooseMethodOneSrc(2,0);
+        assertEquals(ans1, obj.getPathFor(0, 3));
+        int cost3 = obj.getCostFor(0, 3);
+        assertEquals(-9, cost3);
+    }
 }

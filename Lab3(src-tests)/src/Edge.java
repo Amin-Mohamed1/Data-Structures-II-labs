@@ -1,3 +1,5 @@
+package org.example;
+
 public class Edge {
     private final int u; // Source vertex
     private final int v; // Destination vertex
